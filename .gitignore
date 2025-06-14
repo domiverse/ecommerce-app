@@ -1,0 +1,20 @@
+# Node & Angular
+node_modules/
+dist/
+.env
+
+# Java & Spring Boot
+target/
+*.class
+*.log
+*.jar
+*.war
+
+# IDE/Editor
+.vscode/
+.idea/
+*.iml
+
+# Database
+*.db
+*.sqlite
