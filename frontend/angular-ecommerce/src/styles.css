@@ -1041,3 +1041,34 @@ footer ul li{
         padding:8px 0
     }
 }
+.product-card-title {
+  min-height: 48px; /* hoặc phù hợp với font-size/spacing của bạn */
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  text-align: center;
+  font-weight: bold;
+}
+.product-card-img {
+  height: 160px; /* hoặc phù hợp với design */
+  object-fit: contain;
+  display: block;
+  margin: 0 auto;
+}
+.product-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  /* Đặt chiều cao min/max cố định nếu cần */
+  min-height: 320px;
+  box-shadow: 0 0 6px #eee;
+  margin: 12px 6px;
+  padding: 16px;
+  border-radius: 10px;
+  background: #fff;
+}
+.product-list-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px,1fr));
+  gap: 24px;
+}
