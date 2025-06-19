@@ -31,10 +31,10 @@ export class ProductListComponent implements OnInit {
 
     if (this.searchMode){
       this.handleSearchProduct();
-    }
+    }else{
     
     this.handleListProduct();
-
+    }
   }
 
   handleSearchProduct(){
@@ -43,7 +43,8 @@ export class ProductListComponent implements OnInit {
     //now search for the products using keyword
     this.productService.searchProducts(theKeyword).subscribe(
       data => {
-        this.products = data
+        this.products = data;
+        console.log('DATASEARCH:', data);
       }
     );
   }
