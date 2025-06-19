@@ -1,9 +1,9 @@
 package com.domiverse.Ecommerce.config;
 
+import jakarta.persistence.metamodel.EntityType;
+import jakarta.persistence.EntityManager;
 import com.domiverse.Ecommerce.entity.Product;
 import com.domiverse.Ecommerce.entity.ProductCategory;
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.metamodel.EntityType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.rest.core.config.RepositoryRestConfiguration;
