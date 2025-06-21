@@ -21,6 +21,8 @@ export class ProductListComponent implements OnInit {
   thePageNumber: number = 1;
   thePageSize: number = 10;
   theTotalElement: number = 0;
+  rowsPerPageOptions: number[] = [10, 20, 50];
+
 
   constructor(private productService: ProductService,
     private route: ActivatedRoute) { }
@@ -41,12 +43,18 @@ export class ProductListComponent implements OnInit {
       this.handleListProduct();
     }
   }
-  
+
     // Hàm mới để xử lý sự kiện từ p-paginator
   onPageChange(event: any) {
     this.thePageNumber = event.page + 1; // event.page bắt đầu từ 0, nên cần +1
     this.thePageSize = event.rows;
     this.listProducts(); // Gọi lại hàm lấy dữ liệu cho trang mới
+  }
+    onPageSizeChange(): void {
+    // Khi thay đổi số item, luôn reset về trang đầu tiên
+    this.thePageNumber = 1;
+    // Tải lại dữ liệu với kích thước trang mới (thePageSize đã được cập nhật qua ngModel)
+    this.listProducts();
   }
 
   handleSearchProduct() {
@@ -85,8 +93,7 @@ export class ProductListComponent implements OnInit {
     this.previousCategoryId = this.currentCategoryId;
     console.log(`currentCategoryId = ${this.currentCategoryId}, thePageNumber = ${this.thePageNumber}`);
 
-
-    this.productService.getProductListPaginate(this.thePageNumber = 1,
+    this.productService.getProductListPaginate(this.thePageNumber - 1,
       this.thePageSize,
       this.currentCategoryId)
       .subscribe(

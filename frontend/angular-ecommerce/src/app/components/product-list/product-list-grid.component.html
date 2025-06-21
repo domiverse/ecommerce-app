@@ -26,8 +26,8 @@
                 </div>
                 <!-- if product empty then display a message -->
                 <div *ngIf="products?.length == 0" class="alert alert-warning col-md-12" role="alert">No products found
-                </div> 
-                
+                </div>
+
             </div>
 
             <!-- begin-footer -->
@@ -68,6 +68,30 @@
                     [showCurrentPageReport]="true" currentPageReportTemplate="{first} - {last} of {totalRecords}"
                     [showPageLinks]="false" [showFirstLastIcon]="false"></p-paginator>
             </div> -->
+            <div class="footer-pagination mt-3">
+                <div class="row align-items-center">
+                    <div class="col-12">
+
+                        <p-paginator (onPageChange)="onPageChange($event)" [first]="(thePageNumber - 1) * thePageSize"
+                            [rows]="thePageSize" [totalRecords]="theTotalElement" [showCurrentPageReport]="true"
+                            currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
+                            <ng-template pTemplate="left">
+                                <div class="paginator-template-left">
+                                    <span class="mx-1">Items per page: </span>
+                                    <p-select [options]="rowsPerPageOptions" [(ngModel)]="thePageSize"
+                                        (onChange)="onPageSizeChange()">
+                                    </p-select>
+                                </div>
+                            </ng-template>
+
+                            <ng-template pTemplate="right">
+                            </ng-template>
+
+                        </p-paginator>
+
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>

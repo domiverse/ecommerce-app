@@ -14,6 +14,10 @@ import { ButtonModule } from 'primeng/button';
 import { PaginatorModule } from 'primeng/paginator';
 import { SelectModule } from 'primeng/select';
 import { DividerModule } from 'primeng/divider';
+import { DropdownModule } from 'primeng/dropdown';
+import { FormsModule } from '@angular/forms';
+
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 @NgModule({
   declarations: [
     AppComponent,
@@ -31,7 +35,10 @@ import { DividerModule } from 'primeng/divider';
     BrowserAnimationsModule,
     ButtonModule,
     SelectModule,
-    DividerModule
+    DividerModule,
+    DropdownModule,
+    FormsModule,
+    NgbModule
   ],
   providers: [ProductService],
   bootstrap: [AppComponent]
