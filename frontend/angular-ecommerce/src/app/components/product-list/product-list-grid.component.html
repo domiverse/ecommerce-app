@@ -26,27 +26,48 @@
                 </div>
                 <!-- if product empty then display a message -->
                 <div *ngIf="products?.length == 0" class="alert alert-warning col-md-12" role="alert">No products found
-                </div>
+                </div> 
+                
             </div>
 
-            <!-- begin-footer
-             <div class="footer-pagination">
+            <!-- begin-footer -->
+            <!-- <div class="footer-pagination">
                 <div class="row">
                     <div class="col-md-6">
                         <div class="col-md-6">
                             <div class="row">
                                 <div class="col-md-9" style="padding-left: 30%;">
-                                    <ngb-pagination [(page)]="thePageNumber"
-                                                    [pageSize]="thePageSize"
-                                                    [collectionSize]="theTotalElement"
-                                                    (pageChange) = "listProducts()"> 
-                                    </ngb-pagination>
-                                </div>  
+                                    <p-paginator (onPageChange)="onPageChange($event)"
+                                        [first]="(thePageNumber - 1) * thePageSize" [rows]="thePageSize"
+                                        [totalRecords]="theTotalElement">
+                                    </p-paginator>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-             </div> -->
+            </div> -->
+            <!-- <div class="flex items-center justify-center">
+                <div>
+                    <p-button icon="pi pi-star" outlined />
+                </div>
+                <div class="flex-1">
+                    <p-paginator (onPageChange)="onPageChange1($event)" [first]="first1" [rows]="rows1"
+                        [totalRecords]="120" [rowsPerPageOptions]="[10, 20, 30]" [showFirstLastIcon]="false" />
+                </div>
+                <div class="justify-end">
+                    <p-button icon="pi pi-search" />
+                </div>
+            </div>
+            <p-divider />
+            <div class="flex items-center justify-end">
+                <span class="mx-1 text-color">Items per page: </span>
+                <p-select [options]="options" optionLabel="label" optionValue="value" [(ngModel)]="rows2"
+                    (ngModelChange)="first2 = 0" />
+                <p-paginator [first]="first2" [rows]="rows2" [totalRecords]="120" (onPageChange)="onPageChange2($event)"
+                    [showCurrentPageReport]="true" currentPageReportTemplate="{first} - {last} of {totalRecords}"
+                    [showPageLinks]="false" [showFirstLastIcon]="false"></p-paginator>
+            </div> -->
         </div>
     </div>
 </div>

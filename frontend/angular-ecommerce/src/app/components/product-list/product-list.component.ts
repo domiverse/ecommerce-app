@@ -41,6 +41,13 @@ export class ProductListComponent implements OnInit {
       this.handleListProduct();
     }
   }
+  
+    // Hàm mới để xử lý sự kiện từ p-paginator
+  onPageChange(event: any) {
+    this.thePageNumber = event.page + 1; // event.page bắt đầu từ 0, nên cần +1
+    this.thePageSize = event.rows;
+    this.listProducts(); // Gọi lại hàm lấy dữ liệu cho trang mới
+  }
 
   handleSearchProduct() {
     const theKeyword: string = this.route.snapshot.paramMap.get(`keyword`)!;

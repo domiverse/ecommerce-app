@@ -9,8 +9,11 @@ import { ProductService } from './services/product.service';
 import { ProductCategoryMenuComponent } from './components/product-category-menu/product-category-menu.component';
 import { SearchComponent } from './components/search/search.component';
 import { ProductDetailsComponent } from './components/product-details/product-details.component';
-
-
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations'; // Cần cho một số animation
+import { ButtonModule } from 'primeng/button';
+import { PaginatorModule } from 'primeng/paginator';
+import { SelectModule } from 'primeng/select';
+import { DividerModule } from 'primeng/divider';
 @NgModule({
   declarations: [
     AppComponent,
@@ -24,6 +27,11 @@ import { ProductDetailsComponent } from './components/product-details/product-de
     BrowserModule,
     AppRoutingModule, 
     HttpClientModule,
+    PaginatorModule,
+    BrowserAnimationsModule,
+    ButtonModule,
+    SelectModule,
+    DividerModule
   ],
   providers: [ProductService],
   bootstrap: [AppComponent]
