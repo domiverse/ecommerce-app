@@ -16,15 +16,21 @@ import { SelectModule } from 'primeng/select';
 import { DividerModule } from 'primeng/divider';
 import { DropdownModule } from 'primeng/dropdown';
 import { FormsModule } from '@angular/forms';
-
+import { ToolbarModule } from 'primeng/toolbar';
+import { BadgeModule } from 'primeng/badge';
+import { OverlayBadgeModule } from 'primeng/overlaybadge';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { MessageModule } from 'primeng/message';
+import { SidebarModule } from 'primeng/sidebar';
+import { CartStatusComponent } from './components/cart-status/cart-status.component';
 @NgModule({
   declarations: [
     AppComponent,
     ProductListComponent,
     ProductCategoryMenuComponent,
     SearchComponent,
-    ProductDetailsComponent
+    ProductDetailsComponent,
+    CartStatusComponent
     
   ],
   imports: [
@@ -38,7 +44,12 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     DividerModule,
     DropdownModule,
     FormsModule,
-    NgbModule
+    NgbModule,
+    ToolbarModule,
+    OverlayBadgeModule,
+    BadgeModule,
+    MessageModule,
+    SidebarModule
   ],
   providers: [ProductService],
   bootstrap: [AppComponent]

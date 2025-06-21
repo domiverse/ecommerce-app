@@ -1,0 +1,6 @@
+/* Style cho mục menu đang được chọn */
+.menu-active {
+  font-weight: 700;
+  color: var(--primary-color);
+  background-color: var(--primary-100);
+}

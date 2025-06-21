@@ -1,0 +1,45 @@
+/* Style cho card sản phẩm */
+.product-card {
+  text-align: center;
+  padding: 1.25rem;
+  border-radius: var(--border-radius);
+  box-shadow: 0 2px 4px rgba(0,0,0,0.08);
+  background-color: var(--surface-card);
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  transition: box-shadow 0.2s ease-in-out;
+}
+
+.product-card:hover {
+  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+  transform: translateY(-2px);
+}
+
+.product-image-wrapper {
+  margin-bottom: 1rem;
+  height: 160px; /* Cố định chiều cao vùng ảnh */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.product-image {
+  max-height: 100%;
+  max-width: 100%;
+  object-fit: contain;
+}
+
+.product-name {
+  font-size: 1rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  flex-grow: 1; /* Quan trọng: Đẩy giá và nút bấm xuống dưới */
+}
+
+.product-price {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--primary-color);
+  margin-bottom: 1rem;
+}
