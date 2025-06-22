@@ -59,6 +59,7 @@ export class ProductListComponent implements OnInit {
       data => {
         this.products = data;
         console.log('DATASEARCH:', data);
+        this.scrollToTop();
       }
     );
   }
@@ -96,6 +97,8 @@ export class ProductListComponent implements OnInit {
           this.thePageNumber = data.page.number + 1;
           this.thePageSize = data.page.size;
           this.theTotalElement = data.page.totalElements;
+          this.scrollToTop();
+
         }
       );
   }
@@ -126,4 +129,7 @@ onPageSizeChange(): void {
     this.thePageNumber = 1;
     this.listProducts();
 }
+  scrollToTop() {
+    window.scrollTo(0, 0);
+  }
 }
