@@ -32,13 +32,12 @@
             <!-- BẮT ĐẦU KHỐI PHÂN TRANG BOOTSTRAP -->
             <div class="footer-pagination mt-4">
 
-                <!-- Container dùng Flexbox để căn chỉnh -->
+                <!-- Container này sử dụng Flexbox để căn chỉnh các thành phần. -->
                 <div class="d-flex justify-content-between align-items-center">
 
                     <!-- TRÁI: Dropdown chọn số lượng item trên trang -->
                     <div class="d-flex align-items-center">
                         <span class="me-2 text-muted fw-bold">Items per page:</span>
-                        <!-- Sử dụng thẻ select gốc của HTML với các class của Bootstrap -->
                         <select class="form-select form-select-sm" style="width: auto;" [(ngModel)]="thePageSize"
                             (ngModelChange)="onPageSizeChange()">
                             <option *ngFor="let size of rowsPerPageOptions" [ngValue]="size">
@@ -48,8 +47,7 @@
                     </div>
 
 
-                    <!-- GIỮA: Thanh phân trang -->
-                    <!-- Chỉ hiển thị thanh phân trang nếu có nhiều hơn 1 trang -->
+                    <!-- GIỮA: Thanh phân trang chính -->
                     <nav *ngIf="totalPages > 1">
                         <ul class="pagination pagination-sm justify-content-center mb-0">
 
@@ -58,11 +56,22 @@
                                 <a class="page-link" (click)="goToPage(thePageNumber - 1)">Previous</a>
                             </li>
 
-                            <!-- Các nút số trang -->
-                            <li *ngFor="let pageNum of pages" class="page-item"
-                                [class.active]="pageNum === thePageNumber">
-                                <a class="page-link" (click)="goToPage(pageNum)">{{ pageNum }}</a>
-                            </li>
+                            <!-- 
+                  Sử dụng ng-container để chứa logic lặp mà không tạo thêm thẻ thừa.
+                  Vòng lặp này sẽ duyệt qua mảng 'pages' được cung cấp bởi file TypeScript.
+                -->
+                            <ng-container *ngFor="let pageNum of pages">
+
+                                <!-- Nếu pageNum là 0, chúng ta sẽ hiển thị dấu '...' -->
+                                <li *ngIf="pageNum === 0" class="page-item disabled">
+                                    <a class="page-link">...</a>
+                                </li>
+
+                                <!-- Nếu pageNum là một số dương, chúng ta hiển thị nút bấm số trang -->
+                                <li *ngIf="pageNum !== 0" class="page-item" [class.active]="pageNum === thePageNumber">
+                                    <a class="page-link" (click)="goToPage(pageNum)">{{ pageNum }}</a>
+                                </li>
+                            </ng-container>
 
                             <!-- Nút Next -->
                             <li class="page-item" [class.disabled]="thePageNumber >= totalPages">
@@ -72,7 +81,7 @@
                         </ul>
                     </nav>
 
-                    <!-- PHẢI: Thông tin hiển thị -->
+                    <!-- PHẢI: Thông tin hiển thị số lượng sản phẩm -->
                     <div class="text-muted fw-bold" *ngIf="theTotalElement > 0">
                         Showing {{ (thePageNumber - 1) * thePageSize + 1 }}
                         to {{ (thePageNumber * thePageSize) > theTotalElement ? theTotalElement : (thePageNumber *

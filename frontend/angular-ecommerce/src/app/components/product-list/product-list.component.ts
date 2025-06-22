@@ -21,7 +21,7 @@ export class ProductListComponent implements OnInit {
   thePageNumber: number = 1;
   thePageSize: number = 10;
   theTotalElement: number = 0;
-  rowsPerPageOptions: number[] = [10, 20, 50];
+  rowsPerPageOptions: number[] = [2,10, 20, 50];
 
 
   constructor(private productService: ProductService,
@@ -109,10 +109,31 @@ get totalPages(): number {
 
 // 2. Thêm một getter để tạo ra một mảng các số trang [1, 2, 3, ...]
 get pages(): number[] {
-  // Array.from(Array(this.totalPages).keys()) sẽ tạo ra một mảng [0, 1, 2, ...]
-  // Sau đó chúng ta +1 vào mỗi phần tử để có được mảng [1, 2, 3, ...]
-  return Array.from(Array(this.totalPages).keys()).map(i => i + 1);
-}
+    const total = this.totalPages;
+    const current = this.thePageNumber;
+
+    // Nếu có 7 trang hoặc ít hơn, hiển thị tất cả
+    if (total <= 7) {
+        return Array.from(Array(total).keys()).map(i => i + 1);
+    }
+
+    // Nếu trang hiện tại gần đầu (trang 1-4)
+    // Hiển thị [1, 2, 3, 4, 5, ..., total]
+    if (current < 5) {
+        return [1, 2, 3, 4, 5, 0, total]; // 0 đại diện cho '...'
+    }
+
+    // Nếu trang hiện tại gần cuối (total-3 đến total)
+    // Hiển thị [1, ..., total-4, total-3, total-2, total-1, total]
+    if (current > total - 4) {
+        return [1, 0, total - 4, total - 3, total - 2, total - 1, total];
+    }
+  
+    // Nếu trang hiện tại ở giữa  
+    // Hiển thị [1, ..., current-1, current, current+1, ..., total]
+    return [1, 2, 0, current - 1, current, current + 1, 0, total - 1, total];
+  }
+
 
 // 3. Thêm phương thức mới này để xử lý việc chuyển trang
 goToPage(pageNumber: number): void {

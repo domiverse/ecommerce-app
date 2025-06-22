@@ -11,6 +11,7 @@ export class ProductService {
 
 
 
+
   private baseUrl = 'http://localhost:8081/api/products';
 
   private categoryUrl = 'http://localhost:8081/api/product-category';
