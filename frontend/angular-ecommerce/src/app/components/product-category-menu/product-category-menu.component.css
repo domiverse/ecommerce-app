@@ -4,3 +4,47 @@
   color: var(--primary-color);
   background-color: var(--primary-100);
 }
+
+/* --- CSS CHO CHỨC NĂNG TOGGLE SIDEBAR --- */
+
+/* Thêm hiệu ứng chuyển động mượt mà cho sidebar và page-container */
+.menu-sidebar, .page-container, .header-desktop {
+    transition: all 0.4s ease;
+}
+
+/* Khi sidebar bị thu gọn */
+.sidebar-collapsed .menu-sidebar {
+    /* Di chuyển sidebar ra khỏi màn hình về phía bên trái */
+    margin-left: -200px;
+}
+
+.sidebar-collapsed .page-container {
+    /* Mở rộng page-container để chiếm toàn bộ không gian */
+    padding-left: 0;
+}
+
+.sidebar-collapsed .header-desktop {
+    /* Mở rộng header để chiếm toàn bộ không gian */
+    left: 0;
+}
+
+
+/* --- CSS CHO NÚT BẤM HAMBURGER --- */
+.hamburger-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 10px;
+    margin-right: 15px; /* Tạo khoảng cách với ô tìm kiếm */
+}
+
+.hamburger-btn i {
+    font-size: 24px;
+    color: white;
+}
+
+/* Lưu ý: Để sử dụng icon <i class="fas fa-bars"></i>, 
+  bạn cần đảm bảo đã thêm thư viện Font Awesome vào dự án.
+  Nếu chưa, bạn có thể thêm dòng sau vào file index.html:
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
+*/
