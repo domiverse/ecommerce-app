@@ -51,17 +51,27 @@ export class ProductListComponent implements OnInit {
     this.listProducts(); // Gọi lại hàm lấy dữ liệu cho trang mới
   }
 
-  handleSearchProduct() {
-    const theKeyword: string = this.route.snapshot.paramMap.get(`keyword`)!;
+ handleSearchProduct() {
+    const theKeyword: string = this.route.snapshot.paramMap.get('keyword')!;
 
-    //now search for the products using keyword
-    this.productService.searchProducts(theKeyword).subscribe(
-      data => {
-        this.products = data;
-        console.log('DATASEARCH:', data);
-        this.scrollToTop();
-      }
-    );
+    // === GHI CHÚ QUAN TRỌNG ===
+    // Giờ đây chúng ta gọi đến phương thức `searchProductsPaginate` mới
+    // thay vì phương thức search cũ không hỗ trợ phân trang.
+    this.productService.searchProductsPaginate(this.thePageNumber - 1,  // page number (0-based)
+                                                this.thePageSize,
+                                                theKeyword)
+      .subscribe(this.processResult()); // <-- Tái sử dụng hàm helper để xử lý kết quả
+  }
+
+  // Hàm helper để xử lý dữ liệu trả về và cập nhật các thuộc tính
+  processResult() {
+    return (data: any) => {
+      this.products = data._embedded.products;
+      this.thePageNumber = data.page.number + 1;
+      this.thePageSize = data.page.size;
+      this.theTotalElement = data.page.totalElements;
+      this.scrollToTop();
+    };
   }
 
   handleListProduct() {
