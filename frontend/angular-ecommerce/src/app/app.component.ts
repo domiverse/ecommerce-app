@@ -15,4 +15,13 @@ export class AppComponent {
   toggleSidebar(): void {
     this.isSidebarCollapsed = !this.isSidebarCollapsed;
   }
+    // Phương thức MỞ sidebar khi di chuột vào nút hamburger
+  openSidebar(): void {
+    this.isSidebarCollapsed = false;
+  }
+
+  // Phương thức ĐÓNG sidebar khi di chuột ra khỏi vùng sidebar
+  closeSidebar(): void {
+    this.isSidebarCollapsed = true;
+  }
 }
