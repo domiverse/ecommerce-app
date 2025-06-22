@@ -1,4 +1,4 @@
-<div class="detail-section">
+<!-- <div class="detail-section">
     <div class="container-fluid">
 
         <img src="{{product.imageUrl}}" class="detail-img">
@@ -13,5 +13,45 @@
         <a routerLink="/products" class="btn btn-secondary back-home-btn mt-5">
             ← Trở lại trang chủ
         </a>
+    </div>
+</div> -->
+
+
+<!-- GHI CHÚ: Đã thêm các lớp 'main-content' và 'section-content' để đồng bộ layout với trang chủ -->
+<div class="main-content">
+    <div class="section-content section-content-p30">
+        
+        <!-- Sử dụng row của Bootstrap để tạo layout 2 cột -->
+        <div class="row">
+
+            <!-- CỘT BÊN TRÁI: Dành cho hình ảnh -->
+            <div class="col-lg-5 col-md-6">
+                <div class="image-container">
+                    <img src="{{ product.imageUrl }}" alt="{{ product.name }}" class="detail-img">
+                </div>
+            </div>
+
+            <!-- CỘT BÊN PHẢI: Dành cho thông tin sản phẩm -->
+            <div class="col-lg-7 col-md-6 product-info">
+                
+                <h3>{{ product.name }}</h3>
+
+                <div class="price">{{ product.unitPrice | currency: 'USD' }}</div>
+                
+                <button class="btn btn-primary btn-lg mt-3">Thêm vào giỏ hàng</button>
+
+                <hr class="my-4">
+
+                <h4>Mô tả</h4>
+                <p>{{ product.description }}</p>
+
+                <a routerLink="/products" class="btn btn-link mt-4 ps-0">
+                    &larr; Trở lại danh sách
+                </a>
+
+            </div> <!-- Kết thúc cột thông tin -->
+
+        </div> <!-- Kết thúc row -->
+
     </div>
 </div>
