@@ -10,20 +10,19 @@
             <div class="row">
 
                 <!-- loop over the collection of products -->
-     <div *ngFor="let tempProduct of products" class="col-lg-4 col-md-6 col-sm-12">
+                <div *ngFor="let tempProduct of products" class="col-lg-3 col-md-4 col-sm-6 col-12">
+                    <div class="product-box">
+                        <a routerLink="/products/{{tempProduct.id}}">
+                            <img src="{{ tempProduct.imageUrl }}" class="img-responsive">
+                        </a>
+                        <a routerLink="/products/{{tempProduct.id}}">
+                            <h1>{{ tempProduct.name }}</h1>
+                        </a>
+                        <div class="price">{{ tempProduct.unitPrice | currency:'USD' }}</div>
+                        <a href="#" class="primary-btn">Add to cart</a>
+                    </div>
 
-    <div class="product-box">
-        <a routerLink="/products/{{tempProduct.id}}">
-            <img src="{{ tempProduct.imageUrl }}" class="img-responsive">
-        </a>
-        <a routerLink="/products/{{tempProduct.id}}">
-            <h1>{{ tempProduct.name }}</h1>
-        </a>
-        <div class="price">{{ tempProduct.unitPrice | currency:'USD' }}</div>
-        <a href="#" class="primary-btn">Add to cart</a>
-    </div>
-
-</div>
+                </div>
                 <!-- if product empty then display a message -->
                 <div *ngIf="products?.length == 0" class="alert alert-warning col-md-12" role="alert">No products found
                 </div>

@@ -43,3 +43,41 @@
   color: var(--primary-color);
   margin-bottom: 1rem;
 }
+.product-box {
+  /* Các style cũ */
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  text-align: center;
+  padding: 20px;
+
+  /* --- MÃ MỚI: Thêm viền, bo góc và bóng đổ --- */
+  border: 1px solid #e0e0e0;      /* Đường viền màu xám nhạt */
+  border-radius: 8px;             /* Bo tròn các góc */
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05); /* Bóng đổ nhẹ nhàng */
+  transition: box-shadow 0.3s ease; /* Hiệu ứng chuyển động mượt mà */
+}
+
+/* --- MÃ MỚI: Thêm hiệu ứng khi di chuột qua --- */
+.product-box:hover {
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+.product-box h1 {
+    min-height: 3.5em; /* Tăng nhẹ để có thêm không gian cho tiêu đề dài */
+}
+
+.product-box .img-responsive {
+    max-height: 150px;
+    margin: 0 auto 15px; 
+}
+
+.product-box .primary-btn {
+    margin-top: auto; /* Giữ lại để đẩy nút xuống dưới */
+    
+    /* --- MÃ MỚI: Thu nhỏ và căn giữa nút --- */
+    align-self: center; /* Căn giữa nút trong hộp (flex container) */
+    width: auto;        /* Để độ rộng của nút tự điều chỉnh theo nội dung và padding */
+    padding-left: 25px;   /* Thêm khoảng đệm bên trong nút */
+    padding-right: 25px;  /* Thêm khoảng đệm bên trong nút */
+}
