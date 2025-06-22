@@ -50,12 +50,6 @@ export class ProductListComponent implements OnInit {
     this.thePageSize = event.rows;
     this.listProducts(); // Gọi lại hàm lấy dữ liệu cho trang mới
   }
-    onPageSizeChange(): void {
-    // Khi thay đổi số item, luôn reset về trang đầu tiên
-    this.thePageNumber = 1;
-    // Tải lại dữ liệu với kích thước trang mới (thePageSize đã được cập nhật qua ngModel)
-    this.listProducts();
-  }
 
   handleSearchProduct() {
     const theKeyword: string = this.route.snapshot.paramMap.get(`keyword`)!;
@@ -105,4 +99,31 @@ export class ProductListComponent implements OnInit {
         }
       );
   }
+  // 1. Thêm một getter để tính toán tổng số trang
+get totalPages(): number {
+  return Math.ceil(this.theTotalElement / this.thePageSize);
+}
+
+// 2. Thêm một getter để tạo ra một mảng các số trang [1, 2, 3, ...]
+get pages(): number[] {
+  // Array.from(Array(this.totalPages).keys()) sẽ tạo ra một mảng [0, 1, 2, ...]
+  // Sau đó chúng ta +1 vào mỗi phần tử để có được mảng [1, 2, 3, ...]
+  return Array.from(Array(this.totalPages).keys()).map(i => i + 1);
+}
+
+// 3. Thêm phương thức mới này để xử lý việc chuyển trang
+goToPage(pageNumber: number): void {
+  // Kiểm tra để đảm bảo không đi ra ngoài giới hạn trang
+  if (pageNumber >= 1 && pageNumber <= this.totalPages) {
+    this.thePageNumber = pageNumber;
+    this.listProducts(); // Giả định rằng bạn có phương thức này để tải lại sản phẩm
+  }
+}
+
+// 4. Phương thức onPageSizeChange có thể cần được cập nhật
+// để reset về trang 1 mỗi khi người dùng thay đổi số lượng item
+onPageSizeChange(): void {
+    this.thePageNumber = 1;
+    this.listProducts();
+}
 }

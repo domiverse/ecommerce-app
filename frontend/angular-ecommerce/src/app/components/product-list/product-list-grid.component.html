@@ -29,68 +29,59 @@
 
             </div>
 
-            <!-- begin-footer -->
-            <!-- <div class="footer-pagination">
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="col-md-6">
-                            <div class="row">
-                                <div class="col-md-9" style="padding-left: 30%;">
-                                    <p-paginator (onPageChange)="onPageChange($event)"
-                                        [first]="(thePageNumber - 1) * thePageSize" [rows]="thePageSize"
-                                        [totalRecords]="theTotalElement">
-                                    </p-paginator>
-                                </div>
-                            </div>
-                        </div>
+            <!-- BẮT ĐẦU KHỐI PHÂN TRANG BOOTSTRAP -->
+            <div class="footer-pagination mt-4">
+
+                <!-- Container dùng Flexbox để căn chỉnh -->
+                <div class="d-flex justify-content-between align-items-center">
+
+                    <!-- TRÁI: Dropdown chọn số lượng item trên trang -->
+                    <div class="d-flex align-items-center">
+                        <span class="me-2 text-muted fw-bold">Items per page:</span>
+                        <!-- Sử dụng thẻ select gốc của HTML với các class của Bootstrap -->
+                        <select class="form-select form-select-sm" style="width: auto;" [(ngModel)]="thePageSize"
+                            (ngModelChange)="onPageSizeChange()">
+                            <option *ngFor="let size of rowsPerPageOptions" [ngValue]="size">
+                                {{ size }}
+                            </option>
+                        </select>
                     </div>
-                </div>
-            </div> -->
-            <!-- <div class="flex items-center justify-center">
-                <div>
-                    <p-button icon="pi pi-star" outlined />
-                </div>
-                <div class="flex-1">
-                    <p-paginator (onPageChange)="onPageChange1($event)" [first]="first1" [rows]="rows1"
-                        [totalRecords]="120" [rowsPerPageOptions]="[10, 20, 30]" [showFirstLastIcon]="false" />
-                </div>
-                <div class="justify-end">
-                    <p-button icon="pi pi-search" />
+
+
+                    <!-- GIỮA: Thanh phân trang -->
+                    <!-- Chỉ hiển thị thanh phân trang nếu có nhiều hơn 1 trang -->
+                    <nav *ngIf="totalPages > 1">
+                        <ul class="pagination justify-content-center mb-0">
+
+                            <!-- Nút Previous -->
+                            <li class="page-item" [class.disabled]="thePageNumber === 1">
+                                <a class="page-link" (click)="goToPage(thePageNumber - 1)">Previous</a>
+                            </li>
+
+                            <!-- Các nút số trang -->
+                            <li *ngFor="let pageNum of pages" class="page-item"
+                                [class.active]="pageNum === thePageNumber">
+                                <a class="page-link" (click)="goToPage(pageNum)">{{ pageNum }}</a>
+                            </li>
+
+                            <!-- Nút Next -->
+                            <li class="page-item" [class.disabled]="thePageNumber >= totalPages">
+                                <a class="page-link" (click)="goToPage(thePageNumber + 1)">Next</a>
+                            </li>
+
+                        </ul>
+                    </nav>
+
+                    <!-- PHẢI: Thông tin hiển thị -->
+                    <div class="text-muted fw-bold" *ngIf="theTotalElement > 0">
+                        Showing {{ (thePageNumber - 1) * thePageSize + 1 }}
+                        to {{ (thePageNumber * thePageSize) > theTotalElement ? theTotalElement : (thePageNumber *
+                        thePageSize) }}
+                        of {{ theTotalElement }}
+                    </div>
+
                 </div>
             </div>
-            <p-divider />
-            <div class="flex items-center justify-end">
-                <span class="mx-1 text-color">Items per page: </span>
-                <p-select [options]="options" optionLabel="label" optionValue="value" [(ngModel)]="rows2"
-                    (ngModelChange)="first2 = 0" />
-                <p-paginator [first]="first2" [rows]="rows2" [totalRecords]="120" (onPageChange)="onPageChange2($event)"
-                    [showCurrentPageReport]="true" currentPageReportTemplate="{first} - {last} of {totalRecords}"
-                    [showPageLinks]="false" [showFirstLastIcon]="false"></p-paginator>
-            </div> -->
-            <div class="footer-pagination mt-3">
-                <div class="row align-items-center">
-                    <div class="col-12">
-
-                        <p-paginator (onPageChange)="onPageChange($event)" [first]="(thePageNumber - 1) * thePageSize"
-                            [rows]="thePageSize" [totalRecords]="theTotalElement" [showCurrentPageReport]="true"
-                            currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
-                            <ng-template pTemplate="left">
-                                <div class="paginator-template-left">
-                                    <span class="mx-1">Items per page: </span>
-                                    <p-select [options]="rowsPerPageOptions" [(ngModel)]="thePageSize"
-                                        (onChange)="onPageSizeChange()">
-                                    </p-select>
-                                </div>
-                            </ng-template>
-
-                            <ng-template pTemplate="right">
-                            </ng-template>
-
-                        </p-paginator>
-
-                    </div>
-                </div>
-            </div>
+            <!-- KẾT THÚC KHỐI PHÂN TRANG BOOTSTRAP -->
         </div>
     </div>
-</div>
