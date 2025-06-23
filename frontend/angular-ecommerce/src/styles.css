@@ -663,3 +663,19 @@ footer ul li{
   grid-template-columns: repeat(auto-fit, minmax(200px,1fr));
   gap: 24px;
 }
+header.topbar .logo {
+    display: flex;
+    align-items: center;
+    margin-left: 1rem;
+    padding: 0 !important; /* Ghi đè padding cũ */
+    height: 100% !important; /* Giúp căn giữa dọc */
+    background: none !important; /* Ghi đè background cũ */
+    box-shadow: none !important; /* Ghi đè box-shadow cũ */
+    border: none !important; /* Ghi đè border cũ */
+}
+
+/* Định dạng cho chính thẻ <img> của logo */
+header.topbar .logo img {
+    height: 40px !important; /* Đặt chiều cao cố định cho logo */
+    width: auto !important;   /* Để chiều rộng tự điều chỉnh theo tỷ lệ */
+}
