@@ -1,1 +1,28 @@
-<p>cart-status works!</p>
+<!-- Container chính cho trạng thái giỏ hàng -->
+<div class="cart-area d-flex align-items-center">
+
+    <!-- Thẻ <a> để người dùng có thể click vào và đi đến trang chi tiết giỏ hàng -->
+    <a routerLink="/cart-details">
+        
+        <!-- Phần hiển thị giá tiền -->
+        <div class="total-price me-3">
+            {{ totalPrice | currency: 'USD' }}
+        </div>
+
+        <!-- Container cho icon và badge số lượng, sử dụng position-relative -->
+        <div class="cart-icon-container position-relative">
+            
+            <!-- Icon giỏ hàng từ Font Awesome -->
+            <i class="fas fa-shopping-cart cart-icon"></i>
+            
+            <!-- 
+              Badge hiển thị số lượng.
+              Chỉ hiển thị khi có sản phẩm trong giỏ (totalQuantity > 0).
+            -->
+            <span *ngIf="totalQuantity > 0" class="cart-badge">
+                {{ totalQuantity }}
+            </span>
+            
+        </div>
+    </a>
+</div>

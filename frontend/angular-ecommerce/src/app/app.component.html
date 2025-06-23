@@ -1,14 +1,10 @@
 <div class="page-wrapper" [class.sidebar-collapsed]="isSidebarCollapsed">
 
-  <!-- ========================================================== -->
-  <!-- === GHI CHÚ QUAN TRỌNG: Đặt (mouseleave) ở đây === -->
-  <!-- ========================================================== -->
+  <!-- 
+    Sidebar Menu Component
+    GHI CHÚ: Logo đã được di chuyển ra khỏi đây.
+  -->
   <aside class="menu-sidebar d-none d-lg-block" (mouseleave)="closeSidebar()">
-      <div class="logo">
-          <a routerLink="/products">
-              <img src="assets/images/logo.png" alt="luv2shop" class="img-responsive">
-          </a>
-      </div>
       <app-product-category-menu></app-product-category-menu>
   </aside>
 
@@ -17,24 +13,32 @@
     
     <!-- Header Desktop -->
     <header class="header-desktop">
-        <div class="section-content section-content-p30">
+        <div class="section-content">
             <div class="header-wrap">
 
-                <!-- ======================================================== -->
-                <!-- === GHI CHÚ QUAN TRỌNG: Đặt (mouseenter) ở đây === -->
-                <!-- ======================================================== -->
-                <div class="header-button-item d-none d-lg-block">
+                <!-- GHI CHÚ: Đã nhóm nút Toggle và Logo vào một div bên trái -->
+                <div class="header-left-section d-flex align-items-center">
+                    <!-- Nút bấm Toggle Sidebar -->
                     <button class="hamburger-btn" (mouseenter)="openSidebar()">
                         <i class="fas fa-bars"></i>
                     </button>
+                    
+                    <!-- Logo của trang web -->
+                    <a routerLink="/products" class="logo">
+                        <img src="assets/images/logo.png" alt="luv2shop">
+                    </a>
                 </div>
-                <!-- Component Tìm kiếm -->
-                <app-search></app-search>
+                
+                <!-- Phần ở giữa của Header: Component Tìm kiếm -->
+                <div class="header-center-section">
+                    <app-search></app-search>
+                </div>
 
-                <!-- Component Giỏ hàng -->
-                <div class="header-button">
+                <!-- Phần bên phải của Header: Component Giỏ hàng -->
+                <div class="header-right-section">
                     <app-cart-status></app-cart-status>
                 </div>
+
             </div>
         </div>
     </header>

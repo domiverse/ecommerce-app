@@ -1,0 +1,69 @@
+/* Container chính, đảm bảo các phần tử được căn giữa theo chiều dọc */
+.cart-area {
+    height: 100%;
+}
+
+/* Tùy chỉnh cho thẻ link, tạo thành một khối UI cân đối */
+.cart-area a {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    color: white;
+    transition: background-color 0.3s ease;
+
+    /* --- CÁC THAY ĐỔI ĐỂ TẠO SỰ CÂN ĐỐI --- */
+    background-color: rgba(0, 0, 0, 0.1);  /* Một lớp nền mờ để nổi bật */
+    padding: 0.5rem 1rem;                  /* Thêm padding để khối lớn hơn */
+    border-radius: 50px;                   /* Bo tròn góc để tạo thành hình "viên thuốc" */
+    border: 1px solid rgba(255, 255, 255, 0.2); /* Thêm viền trắng mờ tinh tế */
+}
+
+/* Thay đổi màu nền khi người dùng di chuột qua */
+.cart-area a:hover {
+    background-color: rgba(0, 0, 0, 0.2);
+}
+
+/* Định dạng cho phần hiển thị giá tiền */
+.total-price {
+    font-size: 1rem; /* Điều chỉnh lại một chút cho cân đối */
+    font-weight: 600; /* Làm chữ đậm hơn */
+    margin-right: 1rem; /* Tạo khoảng cách với icon */
+}
+
+/* Định dạng cho icon giỏ hàng */
+.cart-icon {
+    font-size: 20px; /* GHI CHÚ: Đã giảm kích thước icon xuống 20px */
+    line-height: 1;
+}
+
+/* * Đây là phần quan trọng nhất: Badge hiển thị số lượng
+*/
+.cart-badge {
+    /* Định vị badge một cách tuyệt đối so với .cart-icon-container */
+    position: absolute;
+    top: -8px;       /* Đẩy badge lên trên một chút */
+    right: -10px;    /* Đẩy badge sang phải một chút */
+    
+    /* Style cho vòng tròn badge */
+    background-color: #dc3545; /* Màu đỏ nổi bật */
+    color: white;
+    border-radius: 50%; /* Tạo hình tròn hoàn hảo */
+    
+    /* Căn chỉnh số bên trong badge */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+    /* Kích thước */
+    min-width: 22px;
+    height: 22px;
+    padding: 2px;
+    
+    /* Font chữ */
+    font-size: 13px;
+    font-weight: bold;
+    line-height: 1;
+
+    /* Thêm viền màu của header để đồng bộ và nổi bật hơn */
+    border: 2px solid #0da8e4;
+}
