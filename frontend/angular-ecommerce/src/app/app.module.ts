@@ -31,11 +31,10 @@ import { CartStatusComponent } from './components/cart-status/cart-status.compon
     SearchComponent,
     ProductDetailsComponent,
     CartStatusComponent
-    
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule, 
+    AppRoutingModule,
     HttpClientModule,
     PaginatorModule,
     BrowserAnimationsModule,
@@ -49,8 +48,8 @@ import { CartStatusComponent } from './components/cart-status/cart-status.compon
     OverlayBadgeModule,
     BadgeModule,
     MessageModule,
-    SidebarModule
-  ],
+    SidebarModule,
+],
   providers: [ProductService],
   bootstrap: [AppComponent]
 })
