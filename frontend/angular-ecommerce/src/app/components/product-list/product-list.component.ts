@@ -163,4 +163,7 @@ onPageSizeChange(): void {
   scrollToTop() {
     window.scrollTo(0, 0);
   }
+addToCart(theProduct: Product){
+  console.log(`Adding to cart: ${theProduct.name}, ${theProduct.unitPrice}`)
+}
 }
