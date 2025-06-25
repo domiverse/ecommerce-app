@@ -1,33 +1,24 @@
-<!-- <div class="menu-sidebar-content js-scrollbar1">
+<div class="menu-sidebar-content">
+  <div class="sidebar-header">
+    <h3 class="logo-text">domiverse</h3>
+    <p class="logo-subtext">eCommerce Project</p>
+  </div>
+
   <nav class="navbar-sidebar">
     <ul class="list-unstyled navbar-list">
       
-      <li *ngFor="let tempProductCategory of productCategories">
-        <a routerLink="/category/{{ tempProductCategory.id }}/{{ tempProductCategory.categoryName }}" routerLinkActive="active-link">
-          {{ tempProductCategory.categoryName }}
-        </a>
-      </li>
-
-    </ul>
-  </nav>
-</div> -->
-
-
-
-<div class="menu-sidebar-content js-scrollbar1">
-  <nav class="navbar-sidebar">
-    <ul class="list-unstyled navbar-list">
-
       <li>
         <a (click)="toggleProductMenu()" [class.active-link]="isProductsRouteActive()" class="has-sub">
-          Products
-          <i class="fas fa-chevron-right" [class.rotated]="isProductMenuOpen"></i>
+          <i class="fas fa-boxes-stacked icon"></i>
+          <span class="text">Products</span>
+          <i class="fas fa-chevron-right chevron" [class.rotated]="isProductMenuOpen"></i>
         </a>
         
         <ul *ngIf="isProductMenuOpen" class="list-unstyled navbar-sublist">
           <li *ngFor="let tempProductCategory of productCategories">
             <a routerLink="/category/{{ tempProductCategory.id }}/{{ tempProductCategory.categoryName }}" routerLinkActive="active-link">
-              {{ tempProductCategory.categoryName }}
+              <i class="fas fa-angle-right icon"></i>
+              <span class="text">{{ tempProductCategory.categoryName }}</span>
             </a>
           </li>
         </ul>
@@ -35,10 +26,22 @@
 
       <li>
         <a routerLink="/contact" routerLinkActive="active-link">
-          Contact
+          <i class="fas fa-envelope icon"></i>
+          <span class="text">Contact</span>
         </a>
       </li>
 
     </ul>
   </nav>
+
+  <div class="sidebar-footer">
+    <h6>Subscribe for newsletter</h6>
+    <div class="input-group">
+      <input type="email" class="form-control" placeholder="Enter Email Address">
+      <button class="btn" type="button"><i class="fas fa-paper-plane"></i></button>
+    </div>
+    <p class="copyright">
+      Copyright ©{{ currentYear }}. All rights reserved.
+    </p>
+  </div>
 </div>

@@ -19,6 +19,8 @@ export class ProductCategoryMenuComponent implements OnInit {
   // === PHẦN LOGIC MỚI BỊ THIẾU ===
   isProductMenuOpen: boolean = false; // Biến trạng thái cho menu con
 
+  currentYear: number = new Date().getFullYear(); 
+
   // Inject Router vào constructor
   constructor(private productService: ProductService, private router: Router) {}
   // =================================

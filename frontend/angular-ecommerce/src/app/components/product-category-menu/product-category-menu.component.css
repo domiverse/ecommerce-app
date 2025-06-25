@@ -1,88 +1,139 @@
-/* Style cho mục menu đang được chọn */
-.menu-active {
-  font-weight: 700;
-  color: var(--primary-color);
-  background-color: var(--primary-100);
-}
-
-/* --- CSS CHO CHỨC NĂNG TOGGLE SIDEBAR --- */
-
-/* Thêm hiệu ứng chuyển động mượt mà cho sidebar và page-container */
-.menu-sidebar, .page-container, .header-desktop {
-    transition: all 0.4s ease;
-}
-
-/* Khi sidebar bị thu gọn */
-.sidebar-collapsed .menu-sidebar {
-    /* Di chuyển sidebar ra khỏi màn hình về phía bên trái */
-    margin-left: -200px;
-}
-
-.sidebar-collapsed .page-container {
-    /* Mở rộng page-container để chiếm toàn bộ không gian */
-    padding-left: 0;
-}
-
-.sidebar-collapsed .header-desktop {
-    /* Mở rộng header để chiếm toàn bộ không gian */
-    left: 0;
-}
-
-
-/* --- CSS CHO NÚT BẤM HAMBURGER --- */
-.hamburger-btn {
-    background: none;
-    border: none;
-    cursor: pointer;
-    padding: 10px;
-    margin-right: 15px; /* Tạo khoảng cách với ô tìm kiếm */
-}
-
-.hamburger-btn i {
-    font-size: 24px;
-    color: white;
-}
-
-/* Lưu ý: Để sử dụng icon <i class="fas fa-bars"></i>, 
-  bạn cần đảm bảo đã thêm thư viện Font Awesome vào dự án.
-  Nếu chưa, bạn có thể thêm dòng sau vào file index.html:
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
-*/
 /* src/app/components/product-category-menu/product-category-menu.component.css */
 
-/* Định dạng cho mục cha (Products, Contact) */
-.navbar-list > li > a {
-  font-weight: 500;
-  font-size: 16px;
-  color: #555;
+/* -- Переменные для легкости изменения -- */
+:host {
+  --primary-text-color: #343a40;
+  --secondary-text-color: #6c757d;
+  --accent-color: #0d6efd; /* Màu xanh dương giống nút "Add to cart" */
+  --light-accent-bg: #e7f1ff; /* Nền xanh rất nhạt cho mục active */
+  --border-color: #dee2e6;
+  --hover-bg: #f8f9fa;
+}
+
+/* Container chính của sidebar */
+.menu-sidebar-content {
+  background-color: #ffffff; /* Đổi nền thành màu trắng */
+  height: 100%;
   display: flex;
-  justify-content: space-between;
-  align-items: center;
+  flex-direction: column;
+  border-right: 1px solid var(--border-color); /* Viền phải mỏng */
+  box-shadow: 4px 0px 15px -3px rgba(0, 0, 0, 0.05); /* Hiệu ứng đổ bóng nhẹ */
 }
 
-/* Thụt lề cho danh sách danh mục con */
-.navbar-sublist {
-  padding-left: 20px;
-  background-color: #f8f9fa; /* Thêm nền nhẹ để phân biệt */
+/* Phần header chứa logo */
+.sidebar-header {
+  padding: 25px 20px;
+  text-align: center;
+  border-bottom: 1px solid var(--border-color);
 }
-
-.navbar-sublist li a {
-  font-size: 14px;
-  padding: 8px 15px;
+.logo-text {
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--primary-text-color); /* Đổi màu chữ */
+  margin: 0;
 }
-
-/* Kiểu cho mục cha có menu con */
-a.has-sub {
-  cursor: pointer;
-}
-
-/* CSS cho icon mũi tên */
-a > i.fa-chevron-right {
-  transition: transform 0.3s ease;
+.logo-subtext {
   font-size: 12px;
+  color: var(--secondary-text-color);
+  margin: 0;
 }
 
-/* Xoay mũi tên khi menu mở */
-a > i.fa-chevron-right.rotated {
+/* Phần menu chính */
+.navbar-sidebar {
+  flex-grow: 1;
+  overflow-y: auto;
+}
+.navbar-list {
+  padding: 15px 0;
+}
+
+/* Định dạng chung cho các mục menu */
+.navbar-list li a {
+  display: flex;
+  align-items: center;
+  padding: 12px 25px;
+  color: var(--secondary-text-color); /* Màu chữ xám cho mục không active */
+  text-decoration: none;
+  transition: all 0.2s ease-in-out;
+  font-size: 15px;
+  font-weight: 500;
+  position: relative;
+  border-left: 3px solid transparent; /* Viền trái trong suốt để tạo hiệu ứng active */
+}
+
+.navbar-list li a:hover {
+  background-color: var(--hover-bg);
+  color: var(--accent-color); /* Đổi màu chữ thành màu nhấn khi hover */
+  border-left-color: #e0e0e0;
+}
+
+/* Định dạng cho link đang active */
+.navbar-list li a.active-link {
+  background-color: var(--light-accent-bg);
+  color: var(--accent-color);
+  font-weight: 600;
+  border-left-color: var(--accent-color); /* Hiển thị viền trái khi active */
+}
+
+.icon {
+  width: 30px;
+  text-align: center;
+  margin-right: 15px;
+  font-size: 16px;
+}
+
+/* Mũi tên thu gọn */
+.chevron {
+  margin-left: auto;
+  transition: transform 0.3s ease;
+}
+.chevron.rotated {
   transform: rotate(90deg);
+}
+
+/* Menu con (danh mục sản phẩm) */
+.navbar-sublist {
+  background-color: transparent; /* Nền trong suốt */
+  padding-left: 0;
+}
+.navbar-sublist li a {
+  padding-left: 43px; /* Tăng thụt lề cho khớp */
+  font-weight: 400; /* Chữ mỏng hơn cho mục con */
+}
+.navbar-sublist li a:hover,
+.navbar-sublist li a.active-link {
+  background-color: var(--hover-bg);
+  border-left: 3px solid transparent; /* Mục con không cần viền trái */
+  color: var(--accent-color);
+}
+
+/* Phần footer của sidebar */
+.sidebar-footer {
+  padding: 20px;
+  border-top: 1px solid var(--border-color);
+}
+.sidebar-footer h6 {
+  color: var(--primary-text-color);
+  font-weight: 600;
+  margin-bottom: 15px;
+}
+.sidebar-footer .input-group .form-control {
+  background-color: #fff;
+  border: 1px solid var(--border-color);
+  color: var(--primary-text-color);
+}
+.sidebar-footer .input-group .form-control:focus {
+  border-color: var(--accent-color);
+  box-shadow: none;
+}
+.sidebar-footer .input-group .btn {
+  background-color: var(--accent-color);
+  color: #fff;
+  border: 1px solid var(--accent-color);
+}
+.copyright {
+  font-size: 12px;
+  color: var(--secondary-text-color);
+  text-align: center;
+  margin-top: 20px;
 }

@@ -1,50 +1,44 @@
 <div class="page-wrapper" [class.sidebar-collapsed]="isSidebarCollapsed">
 
-  <!-- 
+    <!-- 
     Sidebar Menu Component
     GHI CHÚ: Logo đã được di chuyển ra khỏi đây.
   -->
-  <aside class="menu-sidebar d-none d-lg-block" (mouseleave)="closeSidebar()">
-      <app-product-category-menu></app-product-category-menu>
-  </aside>
+    <aside class="menu-sidebar d-none d-lg-block" (mouseleave)="closeSidebar()">
+        <app-product-category-menu></app-product-category-menu>
+    </aside>
 
-  <!-- Container chính chứa header và nội dung -->
-  <div class="page-container">
-    
-    <!-- Header Desktop -->
-    <header class="header-desktop">
-        <div class="section-content">
-            <div class="header-wrap">
+    <!-- Container chính chứa header và nội dung -->
+    <div class="page-container">
 
-                <!-- GHI CHÚ: Đã nhóm nút Toggle và Logo vào một div bên trái -->
-                <div class="header-left-section d-flex align-items-center">
-                    <!-- Nút bấm Toggle Sidebar -->
-                    <button class="hamburger-btn" (mouseenter)="openSidebar()">
-                        <i class="fas fa-bars"></i>
-                    </button>
-                    
-                    <!-- Logo của trang web -->
-                    <a routerLink="/products" class="logo">
-                        <img src="assets/images/logo.png" alt="domiverse">
-                    </a>
+        <!-- Header Desktop -->
+        <header class="header-desktop">
+            <div class="section-content">
+                <div class="header-wrap">
+
+                    <div class="header-left-section">
+                        <button class="hamburger-btn" (mouseenter)="openSidebar()">
+                            <i class="fas fa-bars"></i>
+                        </button>
+                    </div>
+
+                    <div class="header-center-section">
+                        <a routerLink="/products" class="logo">
+                            <img src="assets/images/domiverse-logo.png" alt="domiverse">
+                        </a>
+                    </div>
+
+                    <div class="header-right-section">
+                        <app-search></app-search>
+                        <app-cart-status></app-cart-status>
+                    </div>
+
                 </div>
-                
-                <!-- Phần ở giữa của Header: Component Tìm kiếm -->
-                <div class="header-center-section">
-                    <app-search></app-search>
-                </div>
-
-                <!-- Phần bên phải của Header: Component Giỏ hàng -->
-                <div class="header-right-section">
-                    <app-cart-status></app-cart-status>
-                </div>
-
             </div>
-        </div>
-    </header>
+        </header>
 
-    <!-- Router Outlet để hiển thị nội dung trang -->
-    <router-outlet></router-outlet>
-    
-  </div>
+        <!-- Router Outlet để hiển thị nội dung trang -->
+        <router-outlet></router-outlet>
+
+    </div>
 </div>
