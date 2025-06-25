@@ -48,3 +48,41 @@
   Nếu chưa, bạn có thể thêm dòng sau vào file index.html:
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
 */
+/* src/app/components/product-category-menu/product-category-menu.component.css */
+
+/* Định dạng cho mục cha (Products, Contact) */
+.navbar-list > li > a {
+  font-weight: 500;
+  font-size: 16px;
+  color: #555;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* Thụt lề cho danh sách danh mục con */
+.navbar-sublist {
+  padding-left: 20px;
+  background-color: #f8f9fa; /* Thêm nền nhẹ để phân biệt */
+}
+
+.navbar-sublist li a {
+  font-size: 14px;
+  padding: 8px 15px;
+}
+
+/* Kiểu cho mục cha có menu con */
+a.has-sub {
+  cursor: pointer;
+}
+
+/* CSS cho icon mũi tên */
+a > i.fa-chevron-right {
+  transition: transform 0.3s ease;
+  font-size: 12px;
+}
+
+/* Xoay mũi tên khi menu mở */
+a > i.fa-chevron-right.rotated {
+  transform: rotate(90deg);
+}
