@@ -21,6 +21,15 @@
 }
 
 /* --- CỘT BÊN TRÁI: DANH SÁCH SẢN PHẨM --- */
+
+/* Thêm style cho container để tạo nền và padding, giải quyết vấn đề sát lề */
+.product-list-container {
+    background-color: #ffffff;
+    border: 1px solid #dee2e6;
+    border-radius: 8px;
+    padding: 1.5rem;
+}
+
 .product-item {
     display: flex;
     align-items: center;
@@ -30,6 +39,11 @@
 /* Xóa viền dưới của sản phẩm cuối cùng */
 .product-list .product-item:last-child {
     border-bottom: none;
+    padding-bottom: 0;
+}
+/* Xóa viền trên của sản phẩm đầu tiên */
+.product-list .product-item:first-child {
+    padding-top: 0;
 }
 
 .product-image {
@@ -75,20 +89,19 @@
 
 /* --- CỘT BÊN PHẢI: KHỐI THANH TOÁN --- */
 
-/* GHI CHÚ: Thay đổi logic. Giờ đây chúng ta sẽ làm "dính" cả cột chứa summary box */
+/* GHI CHÚ: Đây là logic để làm "dính" cả cột bên phải */
 .sticky-summary-column {
     position: -webkit-sticky; /* Dành cho Safari */
     position: sticky;
-    top: calc(var(--topbar-height, 65px) + 2rem);
-    align-self: flex-start; /* Quan trọng để sticky hoạt động đúng trong flexbox */
+    top: calc(var(--topbar-height, 65px) + 2rem); /* Vị trí dính, cách topbar 2rem */
+    align-self: flex-start; /* Quan trọng để sticky hoạt động đúng trong flexbox (row) */
 }
 
 .summary-box {
     border: 1px solid #dee2e6;
     border-radius: 8px;
     padding: 1.5rem;
-    background-color: #ffffff;
-    width: 100%; /* Đảm bảo nó chiếm hết chiều rộng của cột */
+    width: 100%;
 }
 
 .summary-box h4 {
@@ -100,9 +113,9 @@
     justify-content: space-between;
     margin-bottom: 0.75rem;
     font-size: 1rem;
-}   
+}
 .total-price-section {
     font-size: 1.25rem;
     font-weight: bold;
-    color: #343a40;
+    color: #343a40; 
 }
