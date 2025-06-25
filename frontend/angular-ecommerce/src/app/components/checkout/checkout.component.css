@@ -1,0 +1,93 @@
+:host {
+  display: block;
+}
+
+/* --- Container chung của trang checkout --- */
+.checkout-page-container {
+  padding: 1.5rem 0; /* Giảm khoảng cách trên dưới */
+}
+
+/* --- Tiêu đề trang --- */
+.page-header {
+  margin-bottom: 2rem; /* Giảm khoảng cách dưới tiêu đề */
+  padding-bottom: 1rem;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.page-header h2 {
+  font-weight: 600;
+  color: #212529;
+}
+
+/* --- Cột trái: Form --- */
+.form-container {
+  background-color: #ffffff;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 1.5rem; /* Giảm padding bên trong form */
+}
+
+.form-section {
+  margin-bottom: 1.5rem; /* Giảm khoảng cách giữa các mục */
+}
+
+.section-title {
+  font-size: 1.2rem; /* Giảm nhẹ cỡ chữ tiêu đề mục */
+  font-weight: 500;
+  margin-bottom: 1.2rem; /* Giảm khoảng cách dưới tiêu đề mục */
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.form-label {
+  font-weight: 500;
+  color: #495057;
+  margin-bottom: 0.5rem;
+}
+
+.form-control {
+  border-radius: 6px;
+  border: 1px solid #ced4da;
+  padding: 0.65rem 1rem; /* Giảm nhẹ chiều cao ô input */
+}
+
+.form-control:focus {
+  border-color: #86b7fe;
+  box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+}
+
+/* --- Cột phải: Tóm tắt đơn hàng --- */
+.summary-container {
+  background-color: #f8f9fa;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 1.5rem; /* Giảm padding bên trong hộp tóm tắt */
+  position: sticky;
+  top: calc(var(--topbar-height, 65px) + 1.5rem); /* Điều chỉnh vị trí dính */
+}
+
+.summary-title {
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin-bottom: 1.2rem;
+}
+
+.summary-item,
+.summary-total {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 0.8rem; /* Giảm khoảng cách các dòng */
+  font-size: 1rem;
+  color: #495057;
+}
+
+.summary-total {
+  font-size: 1.1rem;
+  margin-top: 1rem;
+  color: #212529;
+}
+
+.promo-code-container .btn {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}

@@ -1,1 +1,103 @@
-<p>checkout works!</p>
+<!-- <div class="container">
+
+    <div class="checkout-page-container">
+        <div class="page-header">
+            <h2>Checkout</h2>
+            <p class="text-muted">
+                Already have an account? <a href="#">Log in</a> for faster checkout.
+            </p>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-7">
+                <div class="form-container">
+                    <form [formGroup]="checkoutFormGroup" (ngSubmit)="onSubmit()">
+
+                        <div class="form-section">
+                            <h4 class="section-title">Shipping address</h4>
+
+                            <div formGroupName="customer">
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <label for="firstName" class="form-label">First name</label>
+                                        <input id="firstName" type="text" class="form-control"
+                                            formControlName="firstName" />
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label for="lastName" class="form-label">Last name</label>
+                                        <input id="lastName" type="text" class="form-control"
+                                            formControlName="lastName" />
+                                    </div>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="companyName" class="form-label">Company <span
+                                            class="text-muted">(Optional)</span></label>
+                                    <input id="companyName" type="text" class="form-control"
+                                        formControlName="companyName" />
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <label for="email" class="form-label">Email</label>
+                                        <input id="email" type="email" class="form-control" formControlName="email" />
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label for="phone" class="form-label">Phone</label>
+                                        <input id="phone" type="tel" class="form-control" formControlName="phone" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div formGroupName="shippingAddress">
+                                <div class="mb-3">
+                                    <label for="address" class="form-label">Address</label>
+                                    <input id="address" type="text" class="form-control" placeholder="1234 Main St"
+                                        formControlName="address" />
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-section" formGroupName="shippingAddress">
+                            <h4 class="section-title">Additional information</h4>
+                            <div class="mb-3">
+                                <label for="orderNotes" class="form-label">Order notes (Optional)</label>
+                                <textarea id="orderNotes" class="form-control" rows="4"
+                                    placeholder="Notes about your order, e.g. special notes for delivery."
+                                    formControlName="orderNotes"></textarea>
+                            </div>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+
+            <div class="col-lg-5">
+                <div class="summary-container">
+                    <h4 class="summary-title">Order Summary</h4>
+                    <div class="summary-item">
+                        <span>Temporary amount</span>
+                        <span>{{ totalPrice | currency : "USD" }}</span>
+                    </div>
+                    <div class="summary-item">
+                        <span>Shipping</span>
+                        <span class="text-success">Gratis</span>
+                    </div>
+                    <hr />
+                    <div class="summary-total">
+                        <span>The total amount of (including VAT)</span>
+                        <strong>{{ totalPrice | currency : "USD" }}</strong>
+                    </div>
+                    <button type="submit" class="btn btn-primary w-100 mt-4" (click)="onSubmit()">
+                        Proceed to Shipping
+                    </button>
+                    <div class="promo-code-container mt-4">
+                        <div class="input-group">
+                            <input type="text" class="form-control" placeholder="Apply promo code" />
+                            <button class="btn btn-outline-secondary" type="button">
+                                Apply
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div> -->

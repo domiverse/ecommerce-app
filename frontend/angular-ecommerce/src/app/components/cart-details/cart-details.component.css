@@ -91,7 +91,7 @@
 
 /* GHI CHÚ: Đây là logic để làm "dính" cả cột bên phải */
 .sticky-summary-column {
-    position: -webkit-sticky; /* Dành cho Safari */
+    position: -webkit; /* Dành cho Safari */
     position: sticky;
     top: calc(var(--topbar-height, 65px) + 2rem); /* Vị trí dính, cách topbar 2rem */
     align-self: flex-start; /* Quan trọng để sticky hoạt động đúng trong flexbox (row) */
