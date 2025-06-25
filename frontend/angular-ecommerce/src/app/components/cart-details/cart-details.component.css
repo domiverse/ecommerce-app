@@ -1,4 +1,8 @@
-/* Gỡ bỏ style cũ có nền tối */
+/* ========================================================== */
+/* === CSS CHO LAYOUT GIỎ HÀNG 2 CỘT & STICKY SUMMARY === */
+/* ========================================================== */
+
+/* Gỡ bỏ style cũ có nền tối và đảm bảo component chiếm toàn bộ không gian */
 :host {
     display: block;
     background-color: transparent; /* Nền trong suốt để lấy màu của content-wrapper */
@@ -10,75 +14,95 @@
     padding-bottom: 1rem;
     border-bottom: 1px solid #dee2e6;
 }
-
 .section-header h3 {
-    font-size: 1.75rem; /* Cỡ chữ tương tự "Category: Books" */
+    font-size: 1.75rem;
     font-weight: 500;
     color: #343a40;
 }
 
-/* Định dạng bảng */
-.table {
-    vertical-align: middle; /* Căn giữa các item trong bảng theo chiều dọc */
-}
-
-.product-info {
+/* --- CỘT BÊN TRÁI: DANH SÁCH SẢN PHẨM --- */
+.product-item {
     display: flex;
     align-items: center;
+    padding: 1.5rem 0;
+    border-bottom: 1px solid #e9ecef; /* Viền mảnh hơn */
+}
+/* Xóa viền dưới của sản phẩm cuối cùng */
+.product-list .product-item:last-child {
+    border-bottom: none;
 }
 
 .product-image {
-    width: 75px;
-    height: 75px;
+    width: 100px;
+    height: 100px;
     object-fit: cover;
     border-radius: 8px;
     margin-right: 1.5rem;
 }
-
+.product-info {
+    flex-grow: 1; /* Cho phép phần info chiếm không gian thừa */
+}
 .product-name {
     font-weight: 600;
+    margin-bottom: 0.25rem;
+    color: #212529;
 }
-
+.product-price {
+    color: #6c757d;
+}
 .quantity-controls {
     display: flex;
     align-items: center;
     justify-content: center;
+    margin: 0 1.5rem;
 }
-
 .quantity-controls span {
     min-width: 40px;
     text-align: center;
     font-weight: 500;
     font-size: 1.1rem;
 }
-
-/* Phần tổng kết */
-.summary-section {
-    display: flex;
-    justify-content: flex-end; /* Đẩy khối tổng kết về bên phải */
-    margin-top: 2rem;
+.subtotal {
+    font-weight: 600;
+    width: 120px;
+    text-align: right;
+    color: #212529;
+}
+.remove-action {
+    width: 80px;
+    text-align: right;
 }
 
-.summary-details {
-    width: 100%;
-    max-width: 350px; /* Giới hạn chiều rộng của khối */
+/* --- CỘT BÊN PHẢI: KHỐI THANH TOÁN --- */
+
+/* GHI CHÚ: Thay đổi logic. Giờ đây chúng ta sẽ làm "dính" cả cột chứa summary box */
+.sticky-summary-column {
+    position: -webkit-sticky; /* Dành cho Safari */
+    position: sticky;
+    top: calc(var(--topbar-height, 65px) + 2rem);
+    align-self: flex-start; /* Quan trọng để sticky hoạt động đúng trong flexbox */
+}
+
+.summary-box {
     border: 1px solid #dee2e6;
-    padding: 1.5rem;
     border-radius: 8px;
+    padding: 1.5rem;
+    background-color: #ffffff;
+    width: 100%; /* Đảm bảo nó chiếm hết chiều rộng của cột */
 }
 
-.summary-details p {
+.summary-box h4 {
+    font-weight: 600;
+    margin-bottom: 1rem;
+}
+.summary-details p, .total-price-section {
     display: flex;
     justify-content: space-between;
     margin-bottom: 0.75rem;
     font-size: 1rem;
-}
-
-.summary-details hr {
-    margin: 1rem 0;
-}
-
-.total-price {
+}   
+.total-price-section {
     font-size: 1.25rem;
     font-weight: bold;
+    color: #343a40;
 }

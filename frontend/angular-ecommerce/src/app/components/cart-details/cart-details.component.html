@@ -1,66 +1,75 @@
 <div class="cart-details-container">
 
-    <!-- TIÊU ĐỀ TRANG -->
     <div class="section-header">
         <h3>Shopping Cart</h3>
     </div>
 
-    <!-- Bảng chi tiết giỏ hàng -->
-    <div *ngIf="cartItems.length > 0">
-        <table class="table table-hover">
-            <thead class="table-light">
-                <tr>
-                    <th style="width: 50%;">Product</th>
-                    <th style="width: 20%;" class="text-center">Quantity</th>
-                    <th style="width: 15%;" class="text-end">Unit Price</th>
-                    <th style="width: 15%;" class="text-end">Subtotal</th>
-                </tr>
-            </thead>
+    <!-- Container chính sử dụng Bootstrap Row -->
+    <div class="row">
 
-            <tbody>
-                <tr *ngFor="let item of cartItems">
-                    <!-- Thông tin sản phẩm -->
-                    <td>
-                        <div class="product-info">
-                            <img src="{{ item.imageUrl }}" class="product-image">
-                            <span class="product-name">{{ item.name }}</span>
-                        </div>
-                    </td>
+        <!-- CỘT BÊN TRÁI (2/3) - DANH SÁCH SẢN PHẨM -->
+        <div class="col-lg-8">
 
-                    <!-- Điều chỉnh số lượng -->
-                    <td class="text-center">
-                        <div class="quantity-controls">
-                            <button (click)="decrementQuantity(item)" class="btn btn-sm btn-outline-secondary">-</button>
-                            <span>{{ item.quantity }}</span>
-                            <button (click)="incrementQuantity(item)" class="btn btn-sm btn-outline-secondary">+</button>
-                            <button (click)="remove(item)" class="btn btn-sm btn-link text-danger ms-3">Remove</button>
-                        </div>
-                    </td>
-
-                    <!-- Giá và tổng phụ -->
-                    <td class="text-end">{{ item.unitPrice | currency:'USD' }}</td>
-                    <td class="text-end">{{ (item.quantity * item.unitPrice) | currency:'USD' }}</td>
-                </tr>
-            </tbody>
-        </table>
-
-        <!-- Bảng tổng kết -->
-        <div class="summary-section">
-            <div class="summary-details">
-                <p><strong>Total Quantity:</strong> <span>{{ totalQuantity }}</span></p>
-                <p><strong>Shipping:</strong> <span>FREE</span></p>
-                <hr>
-                <p class="total-price"><strong>Total Price:</strong> <span>{{ totalPrice | currency:'USD' }}</span></p>
-                <a routerLink="/checkout" class="btn btn-primary w-100 mt-2">Proceed to Checkout</a>
+            <!-- Thông báo nếu giỏ hàng trống -->
+            <div *ngIf="cartItems.length == 0" class="alert alert-info" role="alert">
+                <p class="mb-0">Your shopping cart is empty. Let's add some products!</p>
+                <a routerLink="/products" class="alert-link">Continue Shopping</a>
             </div>
+
+            <!-- Danh sách các sản phẩm trong giỏ hàng -->
+            <div class="product-list">
+                <div *ngFor="let item of cartItems" class="product-item">
+                    <img src="{{ item.imageUrl }}" class="product-image">
+
+                    <div class="product-info">
+                        <h5 class="product-name">{{ item.name }}</h5>
+                        <p class="product-price">{{ item.unitPrice | currency:'USD' }}</p>
+                    </div>
+
+                    <div class="quantity-controls">
+                        <button (click)="decrementQuantity(item)" class="btn btn-sm btn-outline-secondary">-</button>
+                        <span>{{ item.quantity }}</span>
+                        <button (click)="incrementQuantity(item)" class="btn btn-sm btn-outline-secondary">+</button>
+                    </div>
+
+                    <div class="subtotal">
+                        {{ (item.quantity * item.unitPrice) | currency:'USD' }}
+                    </div>
+
+                    <div class="remove-action">
+                        <button (click)="remove(item)" class="btn btn-sm btn-link text-danger">Remove</button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- CỘT BÊN PHẢI (1/3) - KHỐI THANH TOÁN -->
+        <div class="col-lg-4 sticky-summary-column">
+
+            <!-- Khối này sẽ "dính" lại khi cuộn trang -->
+            <div class="summary-box">
+                <h4>Order Summary</h4>
+                <hr>
+                <div class="summary-details">
+                    <p>
+                        <span>Total Quantity:</span>
+                        <span>{{ totalQuantity }}</span>
+                    </p>
+                    <p>
+                        <span>Shipping:</span>
+                        <span>FREE</span>
+                    </p>
+                </div>
+                <hr>
+                <div class="total-price-section">
+                    <strong>Total Price:</strong>
+                    <strong>{{ totalPrice | currency:'USD' }}</strong>
+                </div>
+                <a routerLink="/checkout" class="btn btn-primary w-100 mt-3">Proceed to Checkout</a>
+            </div>
+
         </div>
 
     </div>
-
-    <!-- Thông báo nếu giỏ hàng trống -->
-    <div *ngIf="cartItems.length == 0" class="alert alert-info mt-3" role="alert">
-        <p class="mb-0">Your shopping cart is empty. Let's add some products!</p>
-        <a routerLink="/products" class="alert-link">Continue Shopping</a>
-    </div>
-
 </div>
