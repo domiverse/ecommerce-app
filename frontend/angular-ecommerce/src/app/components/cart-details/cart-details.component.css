@@ -1,0 +1,84 @@
+/* Gỡ bỏ style cũ có nền tối */
+:host {
+    display: block;
+    background-color: transparent; /* Nền trong suốt để lấy màu của content-wrapper */
+}
+
+/* Định dạng cho tiêu đề trang */
+.section-header {
+    margin-bottom: 2rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid #dee2e6;
+}
+
+.section-header h3 {
+    font-size: 1.75rem; /* Cỡ chữ tương tự "Category: Books" */
+    font-weight: 500;
+    color: #343a40;
+}
+
+/* Định dạng bảng */
+.table {
+    vertical-align: middle; /* Căn giữa các item trong bảng theo chiều dọc */
+}
+
+.product-info {
+    display: flex;
+    align-items: center;
+}
+
+.product-image {
+    width: 75px;
+    height: 75px;
+    object-fit: cover;
+    border-radius: 8px;
+    margin-right: 1.5rem;
+}
+
+.product-name {
+    font-weight: 600;
+}
+
+.quantity-controls {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.quantity-controls span {
+    min-width: 40px;
+    text-align: center;
+    font-weight: 500;
+    font-size: 1.1rem;
+}
+
+/* Phần tổng kết */
+.summary-section {
+    display: flex;
+    justify-content: flex-end; /* Đẩy khối tổng kết về bên phải */
+    margin-top: 2rem;
+}
+
+.summary-details {
+    width: 100%;
+    max-width: 350px; /* Giới hạn chiều rộng của khối */
+    border: 1px solid #dee2e6;
+    padding: 1.5rem;
+    border-radius: 8px;
+}
+
+.summary-details p {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 0.75rem;
+    font-size: 1rem;
+}
+
+.summary-details hr {
+    margin: 1rem 0;
+}
+
+.total-price {
+    font-size: 1.25rem;
+    font-weight: bold;
+}

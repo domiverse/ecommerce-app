@@ -42,6 +42,28 @@ export class CartService {
     this.computeCartTotals();
   }
 
+    // --- GIẢM SỐ LƯỢNG SẢN PHẨM ---
+  decrementQuantity(theCartItem: CartItem) {
+    theCartItem.quantity--;
+
+    if (theCartItem.quantity === 0) {
+      this.remove(theCartItem); // Nếu số lượng về 0, xóa sản phẩm
+    }
+    else {
+      this.computeCartTotals();
+    }
+  }
+
+  //--- XÓA SẢN PHẨM KHỎI GIỎ ---
+  remove(theCartItem: CartItem) {
+    const itemIndex = this.cartItems.findIndex( tempCartItem => tempCartItem.id === theCartItem.id );
+
+    if (itemIndex > -1) {
+      this.cartItems.splice(itemIndex, 1);
+      this.computeCartTotals();
+    }
+  }
+
   computeCartTotals() {
 
     let totalPriceValue: number = 0;
