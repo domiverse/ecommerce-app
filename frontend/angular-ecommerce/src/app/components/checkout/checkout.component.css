@@ -22,7 +22,7 @@
 /* --- Cột trái: Form --- */
 .form-container {
   background-color: #ffffff;
-  border: 1px solid #e0e0e0;
+  border: 1px solid #000000;
   border-radius: 8px;
   padding: 1.5rem; /* Giảm padding bên trong form */
 }
@@ -36,7 +36,7 @@
   font-weight: 500;
   margin-bottom: 1.2rem; /* Giảm khoảng cách dưới tiêu đề mục */
   padding-bottom: 0.5rem;
-  border-bottom: 1px solid #f0f0f0;
+  border-bottom: 1px solid #e9e4e4;
 }
 
 .form-label {
@@ -47,7 +47,7 @@
 
 .form-control {
   border-radius: 6px;
-  border: 1px solid #ced4da;
+  border: 1px solid #000000;
   padding: 0.65rem 1rem; /* Giảm nhẹ chiều cao ô input */
 }
 
@@ -59,7 +59,7 @@
 /* --- Cột phải: Tóm tắt đơn hàng --- */
 .summary-container {
   background-color: #f8f9fa;
-  border: 1px solid #e0e0e0;
+  border: 1px solid #0c0000;
   border-radius: 8px;
   padding: 1.5rem; /* Giảm padding bên trong hộp tóm tắt */
   position: sticky;
@@ -108,7 +108,7 @@
   display: flex;
   align-items: center;
   padding: 1rem;
-  border: 1px solid #ced4da;
+  border: 1px solid #000000;
   border-radius: 6px;
   cursor: pointer;
   transition: all 0.2s ease-in-out;
@@ -141,6 +141,6 @@
   margin-top: 1.5rem;
   padding: 1.5rem;
   background-color: #f8f9fa;
-  border: 1px solid #e0e0e0;
+  border: 1px solid #000000;
   border-radius: 8px;
 }
