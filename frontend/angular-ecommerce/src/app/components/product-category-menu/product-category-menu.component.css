@@ -137,3 +137,18 @@
   text-align: center;
   margin-top: 20px;
 }
+
+/* Kiểu cho logo hình ảnh mới */
+.logo-image {
+  max-width: 100%; /* Đảm bảo logo không bị tràn ra ngoài */
+  height: auto; /* Giữ đúng tỷ lệ của hình ảnh */
+  margin-bottom: 5px; /* Tạo một khoảng cách nhỏ với dòng subtext bên dưới */
+}
+
+/* Bạn có thể xóa hoặc bỏ qua quy tắc này vì nó không còn được sử dụng */
+.logo-text {
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--primary-text-color);
+  margin: 0;
+}
