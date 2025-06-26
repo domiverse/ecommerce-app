@@ -62,7 +62,7 @@
 }
 
 .header-desktop .logo img {
-    max-height: 180px;  /* Đặt lại kích thước phù hợp với header */
+    max-height: 320px;  /* Đặt lại kích thước phù hợp với header */
     width: auto;
     /* Bỏ align-items vì nó không có tác dụng trực tiếp trên img, 
        mà phải áp dụng cho container của nó nếu cần căn chỉnh nội dung */
