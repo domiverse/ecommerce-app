@@ -91,3 +91,56 @@
   border-top-left-radius: 0;
   border-bottom-left-radius: 0;
 }
+
+/* ==========================================================================
+   CSS CHO PHẦN LỰA CHỌN THANH TOÁN
+   ========================================================================== */
+
+/* Khung chứa các lựa chọn thanh toán */
+.payment-method-container {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem; /* Khoảng cách giữa các lựa chọn */
+}
+
+/* Định dạng cho từng ô lựa chọn (Credit Card, Bank, Cash) */
+.payment-option {
+  display: flex;
+  align-items: center;
+  padding: 1rem;
+  border: 1px solid #ced4da;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+
+/* Ẩn radio button gốc */
+.payment-option input[type="radio"] {
+  display: none;
+}
+
+.payment-option:hover {
+  background-color: #f8f9fa;
+  border-color: #86b7fe;
+}
+
+/* Định dạng cho lựa chọn đang được chọn */
+.payment-option.selected {
+  border-color: #0d6efd;
+  background-color: #e7f1ff;
+  border-width: 2px;
+  padding: calc(1rem - 1px); /* Bù lại 1px border-width tăng thêm */
+}
+
+.payment-option span {
+  font-weight: 500;
+}
+
+/* Khung chứa thông tin chi tiết (form thẻ, thông báo,...) */
+.payment-details-panel {
+  margin-top: 1.5rem;
+  padding: 1.5rem;
+  background-color: #f8f9fa;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+}

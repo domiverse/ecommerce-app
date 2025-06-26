@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { CartService } from '../../services/cart.service';
 @Component({
   selector: 'app-checkout',
@@ -8,71 +8,86 @@ import { CartService } from '../../services/cart.service';
   styleUrl: './checkout.component.css'
 })
 export class CheckoutComponent implements OnInit {
-  checkoutFormGroup!: FormGroup; // Sử dụng ! để báo rằng nó sẽ được khởi tạo trong ngOnInit
 
+  checkoutFormGroup!: FormGroup;
   totalPrice: number = 0;
   totalQuantity: number = 0;
 
-  constructor(
-    private formBuilder: FormBuilder,
-    private cartService: CartService
-  ) {}
+  creditCardYears: number[] = [];
+  creditCardMonths: number[] = [];
+
+  // KHAI BÁO BIẾN ĐỂ THEO DÕI PHƯƠNG THỨC THANH TOÁN
+  selectedPaymentMethod: string = '';
+
+  constructor(private formBuilder: FormBuilder,
+              private cartService: CartService) { }
 
   ngOnInit(): void {
-    // Lấy thông tin giỏ hàng từ service
     this.reviewCartDetails();
 
-    // Khởi tạo form
     this.checkoutFormGroup = this.formBuilder.group({
-      // Nhóm thông tin khách hàng
       customer: this.formBuilder.group({
-        firstName: [""],
-        lastName: [""],
-        companyName: [""],
-        email: [""],
-        phone: [""],
+        firstName: [''],
+        lastName: [''],
+        companyName: [''],
+        email: [''],
+        phone: ['']
       }),
-      // Nhóm thông tin giao hàng
       shippingAddress: this.formBuilder.group({
-        address: [""],
-        orderNotes: [""],
+        address: [''],
+        orderNotes: ['']
       }),
-      // Nhóm thông tin thẻ tín dụng (ví dụ)
-      creditCard: this.formBuilder.group({
-        cardType: [""],
-        nameOnCard: [""],
-        cardNumber: [""],
-        securityCode: [""],
-        expirationMonth: [""],
-        expirationYear: [""],
-      }),
+      // THÊM MỚI FORM GROUP CHO THANH TOÁN
+      payment: this.formBuilder.group({
+        paymentMethod: new FormControl(''), // Để lưu giá trị radio button
+        // Các trường cho thẻ tín dụng
+        nameOnCard: [''],
+        cardNumber: [''],
+        securityCode: [''],
+        expirationMonth: [''],
+        expirationYear: ['']
+      })
     });
+
+    // Cung cấp dữ liệu cho tháng/năm hết hạn của thẻ
+    const startMonth: number = new Date().getMonth() + 1;
+    this.getCreditCardMonths(startMonth);
+    this.getCreditCardYears();
   }
 
   reviewCartDetails() {
-    // Đăng ký lắng nghe sự kiện tổng giá tiền từ service
-    this.cartService.totalPrice.subscribe((data) => (this.totalPrice = data));
+    this.cartService.totalQuantity.subscribe(totalQuantity => this.totalQuantity = totalQuantity);
+    this.cartService.totalPrice.subscribe(totalPrice => this.totalPrice = totalPrice);
+  }
 
-    // Đăng ký lắng nghe sự kiện tổng số lượng từ service
-    this.cartService.totalQuantity.subscribe(
-      (data) => (this.totalQuantity = data)
-    );
-
-    // Bắt đầu tính toán lại nếu cần
-    this.cartService.computeCartTotals();
+  // HÀM MỚI: ĐƯỢC GỌI KHI NGƯỜI DÙNG CHỌN PHƯƠNG THỨC THANH TOÁN
+  onPaymentMethodChange(event: Event): void {
+    const target = event.target as HTMLInputElement;
+    this.selectedPaymentMethod = target.value;
   }
 
   onSubmit() {
     console.log("Handling the submit button");
+    console.log(this.checkoutFormGroup.get('customer')?.value);
+    console.log("The email address is " + this.checkoutFormGroup.get('customer.email')?.value);
+  }
 
-    // Lấy dữ liệu từ form
-    const customerInfo = this.checkoutFormGroup.get("customer")?.value;
-    const shippingInfo = this.checkoutFormGroup.get("shippingAddress")?.value;
+  // Các hàm helper cho tháng/năm
+  getCreditCardMonths(startMonth: number) {
+    let data: number[] = [];
+    for (let theMonth = startMonth; theMonth <= 12; theMonth++) {
+      data.push(theMonth);
+    }
+    this.creditCardMonths = data;
+  }
 
-    console.log("Customer Info:", customerInfo);
-    console.log("Shipping Info:", shippingInfo);
-
-    // Tại đây, bạn sẽ gọi một service để gửi dữ liệu đơn hàng lên backend
-    // Ví dụ: this.checkoutService.placeOrder({ ... }).subscribe(...)
+  getCreditCardYears() {
+    let data: number[] = [];
+    const startYear: number = new Date().getFullYear();
+    const endYear: number = startYear + 10;
+    for (let theYear = startYear; theYear <= endYear; theYear++) {
+      data.push(theYear);
+    }
+    this.creditCardYears = data;
   }
 }

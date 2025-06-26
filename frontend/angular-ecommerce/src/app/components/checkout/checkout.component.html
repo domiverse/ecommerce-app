@@ -64,7 +64,78 @@
                                     formControlName="orderNotes"></textarea>
                             </div>
                         </div>
+                        <div class="form-section" formGroupName="payment">
+                            <h4 class="section-title">Payment Method</h4>
 
+                            <div class="payment-method-container">
+
+                                <label for="creditCard" class="payment-option"
+                                    [class.selected]="selectedPaymentMethod === 'creditCard'">
+                                    <input id="creditCard" type="radio" value="creditCard"
+                                        formControlName="paymentMethod" (change)="onPaymentMethodChange($event)">
+                                    <span>Credit Card</span>
+                                </label>
+
+                                <label for="bankTransfer" class="payment-option"
+                                    [class.selected]="selectedPaymentMethod === 'bankTransfer'">
+                                    <input id="bankTransfer" type="radio" value="bankTransfer"
+                                        formControlName="paymentMethod" (change)="onPaymentMethodChange($event)">
+                                    <span>Bank Transfer</span>
+                                </label>
+
+                                <label for="cash" class="payment-option"
+                                    [class.selected]="selectedPaymentMethod === 'cash'">
+                                    <input id="cash" type="radio" value="cash" formControlName="paymentMethod"
+                                        (change)="onPaymentMethodChange($event)">
+                                    <span>Cash on Delivery</span>
+                                </label>
+                            </div>
+
+                            <div *ngIf="selectedPaymentMethod === 'creditCard'" class="payment-details-panel">
+                                <div class="row">
+                                    <div class="col-md-12 mb-3">
+                                        <label class="form-label">Name on Card</label>
+                                        <input type="text" class="form-control" formControlName="nameOnCard">
+                                    </div>
+                                    <div class="col-md-12 mb-3">
+                                        <label class="form-label">Card Number</label>
+                                        <input type="text" class="form-control" formControlName="cardNumber">
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-4 mb-3">
+                                        <label class="form-label">Expiration Month</label>
+                                        <select formControlName="expirationMonth" class="form-select">
+                                            <option *ngFor="let month of creditCardMonths">{{ month }}</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-4 mb-3">
+                                        <label class="form-label">Expiration Year</label>
+                                        <select formControlName="expirationYear" class="form-select">
+                                            <option *ngFor="let year of creditCardYears">{{ year }}</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-4 mb-3">
+                                        <label class="form-label">Security Code (CVV)</label>
+                                        <input type="text" class="form-control" formControlName="securityCode">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div *ngIf="selectedPaymentMethod === 'bankTransfer'" class="payment-details-panel">
+                                <p class="text-muted">Please transfer the total amount to the account below. Your order
+                                    will be shipped after payment is confirmed.</p>
+                                <p><strong>Bank:</strong> Vietcombank<br>
+                                    <strong>Account Name:</strong> Domiverse Project<br>
+                                    <strong>Account Number:</strong> 123456789
+                                </p>
+                            </div>
+
+                            <div *ngIf="selectedPaymentMethod === 'cash'" class="payment-details-panel">
+                                <p class="text-muted">You will pay in cash to the courier upon receiving your order.</p>
+                            </div>
+
+                        </div>
                     </form>
                 </div>
             </div>
