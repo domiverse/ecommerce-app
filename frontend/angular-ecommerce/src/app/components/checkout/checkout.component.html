@@ -19,13 +19,16 @@
                             <div formGroupName="customer">
                                 <div class="row">
                                     <div class="col-md-6 mb-3">
-    <label for="firstName" class="form-label">First name</label>
-    <input id="firstName" type="text" class="form-control" formControlName="firstName" />
-    <div *ngIf="firstName?.invalid && (firstName?.dirty || firstName?.touched)" class="alert alert-danger mt-1">
-        <div *ngIf="firstName?.errors?.['required']">First name is required.</div>
-        <div *ngIf="firstName?.errors?.['minlength']">First name must be at least 2 characters long.</div>
-    </div>
-</div>
+                                        <label for="firstName" class="form-label">First name</label>
+                                        <input id="firstName" type="text" class="form-control"
+                                            formControlName="firstName" />
+                                        <div *ngIf="firstName?.invalid && (firstName?.dirty || firstName?.touched)"
+                                            class="alert alert-danger mt-1">
+                                            <div *ngIf="firstName?.errors?.['required']">First name is required.</div>
+                                            <div *ngIf="firstName?.errors?.['minlength']">First name must be at least 2
+                                                characters long.</div>
+                                        </div>
+                                    </div>
                                     <div class="col-md-6 mb-3">
                                         <label for="lastName" class="form-label">Last name</label>
                                         <input id="lastName" type="text" class="form-control"
@@ -103,6 +106,12 @@
                                     <div class="col-md-12 mb-3">
                                         <label class="form-label">Card Number</label>
                                         <input type="text" class="form-control" formControlName="cardNumber">
+                                        <div *ngIf="cardNumber?.invalid && (cardNumber?.dirty || cardNumber?.touched)"
+                                            class="alert alert-danger mt-1">
+                                            <div *ngIf="cardNumber?.errors?.['required']">Card number is required.</div>
+                                            <div *ngIf="cardNumber?.errors?.['pattern']">Card number must be 16 digits.
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="row">
@@ -126,7 +135,8 @@
                             </div>
 
                             <div *ngIf="selectedPaymentMethod === 'bankTransfer'" class="payment-details-panel">
-                                <p class="text-muted">Vui lòng chuyển tổng số tiền vào tài khoản bên dưới. Đơn hàng của bạn sẽ được chuyển đi sau khi thanh toán được xác nhận.</p>
+                                <p class="text-muted">Vui lòng chuyển tổng số tiền vào tài khoản bên dưới. Đơn hàng của
+                                    bạn sẽ được chuyển đi sau khi thanh toán được xác nhận.</p>
                                 <p><strong>Bank:</strong> TPbank<br>
                                     <strong>Account Name:</strong> Domiverse Project<br>
                                     <strong>Account Number:</strong> 123456789
@@ -134,7 +144,8 @@
                             </div>
 
                             <div *ngIf="selectedPaymentMethod === 'cash'" class="payment-details-panel">
-                                <p class="text-muted">Bạn sẽ thanh toán bằng tiền mặt cho đơn vị chuyển phát nhanh khi nhận được đơn hàng.</p>
+                                <p class="text-muted">Bạn sẽ thanh toán bằng tiền mặt cho đơn vị chuyển phát nhanh khi
+                                    nhận được đơn hàng.</p>
                             </div>
 
                         </div>
