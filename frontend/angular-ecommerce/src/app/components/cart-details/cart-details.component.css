@@ -17,7 +17,7 @@
 .section-header h3 {
     font-size: 1.75rem;
     font-weight: 500;
-    color: #343a40;
+    color: #ffffff;
 }
 
 /* --- CỘT BÊN TRÁI: DANH SÁCH SẢN PHẨM --- */
@@ -25,7 +25,7 @@
 /* Thêm style cho container để tạo nền và padding, giải quyết vấn đề sát lề */
 .product-list-container {
     background-color: #ffffff;
-    border: 1px solid #000000;
+    border: 1px solid #ffffff;
     border-radius: 8px;
     padding: 1.5rem;
 }
@@ -98,7 +98,7 @@
 }
 
 .summary-box {
-    border: 1px solid #dee2e6;
+    border: 1px solid #d7dde4;
     border-radius: 8px;
     padding: 1.5rem;
     width: 100%;
