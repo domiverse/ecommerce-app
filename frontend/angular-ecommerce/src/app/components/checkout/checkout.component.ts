@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { CartService } from '../../services/cart.service';
+import { CheckoutFormService } from '../../services/checkout-form.service';
 @Component({
   selector: 'app-checkout',
   standalone: false,
@@ -16,43 +17,91 @@ export class CheckoutComponent implements OnInit {
   creditCardYears: number[] = [];
   creditCardMonths: number[] = [];
 
-  // KHAI BÁO BIẾN ĐỂ THEO DÕI PHƯƠNG THỨC THANH TOÁN
   selectedPaymentMethod: string = '';
 
+  // SỬA: Inject checkoutFormService
   constructor(private formBuilder: FormBuilder,
-              private cartService: CartService) { }
+    private cartService: CartService,
+    private checkoutFormService: CheckoutFormService) { } // Inject service
 
   ngOnInit(): void {
     this.reviewCartDetails();
 
     this.checkoutFormGroup = this.formBuilder.group({
       customer: this.formBuilder.group({
-        firstName: [''],
-        lastName: [''],
-        companyName: [''],
-        email: [''],
-        phone: ['']
+        // THÊM VALIDATORS
+        firstName: new FormControl('', [Validators.required, Validators.minLength(2)]),
+        lastName: new FormControl('', [Validators.required, Validators.minLength(2)]),
+        companyName: [''], // Tùy chọn, không cần validator
+        email: new FormControl('', [Validators.required, Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$')]),
+        phone: new FormControl('', [Validators.required, Validators.pattern('^[0-9]{10,11}$')])
       }),
       shippingAddress: this.formBuilder.group({
-        address: [''],
+        address: new FormControl('', [Validators.required, Validators.minLength(2)]),
         orderNotes: ['']
       }),
-      // THÊM MỚI FORM GROUP CHO THANH TOÁN
       payment: this.formBuilder.group({
-        paymentMethod: new FormControl(''), // Để lưu giá trị radio button
-        // Các trường cho thẻ tín dụng
-        nameOnCard: [''],
-        cardNumber: [''],
-        securityCode: [''],
+        paymentMethod: new FormControl('', [Validators.required]),
+        // THÊM VALIDATORS CHO THẺ TÍN DỤNG
+        nameOnCard: new FormControl('', [Validators.required, Validators.minLength(2)]),
+        cardNumber: new FormControl('', [Validators.required, Validators.pattern('^[0-9]{16}$')]),
+        securityCode: new FormControl('', [Validators.required, Validators.pattern('^[0-9]{3}$')]),
         expirationMonth: [''],
         expirationYear: ['']
       })
     });
 
-    // Cung cấp dữ liệu cho tháng/năm hết hạn của thẻ
-    const startMonth: number = new Date().getMonth() + 1;
-    this.getCreditCardMonths(startMonth);
-    this.getCreditCardYears();
+    // SỬA: Lấy dữ liệu tháng/năm từ Service
+    this.checkoutFormService.getCreditCardMonths().subscribe(
+      // Thêm kiểu dữ liệu (data: number[])
+      (data: number[]) => {
+        console.log("Retrieved credit card months: " + JSON.stringify(data));
+        this.creditCardMonths = data;
+      }
+    );
+
+    this.checkoutFormService.getCreditCardYears().subscribe(
+      // Thêm kiểu dữ liệu (data: number[])
+      (data: number[]) => {
+        console.log("Retrieved credit card years: " + JSON.stringify(data));
+        this.creditCardYears = data;
+      }
+    );
+  }
+
+  // THÊM: Các getter để dễ dàng truy cập form controls trong HTML
+  get firstName() { return this.checkoutFormGroup.get('customer.firstName'); }
+  get lastName() { return this.checkoutFormGroup.get('customer.lastName'); }
+  get email() { return this.checkoutFormGroup.get('customer.email'); }
+  get phone() { return this.checkoutFormGroup.get('customer.phone'); }
+  get shippingAddressAddress() { return this.checkoutFormGroup.get('shippingAddress.address'); }
+  get paymentMethod() { return this.checkoutFormGroup.get('payment.paymentMethod'); }
+  get nameOnCard() { return this.checkoutFormGroup.get('payment.nameOnCard'); }
+  get cardNumber() { return this.checkoutFormGroup.get('payment.cardNumber'); }
+  get securityCode() { return this.checkoutFormGroup.get('payment.securityCode'); }
+
+
+  // SỬA: Cập nhật hàm này để set validator khi chọn phương thức thanh toán
+  onPaymentMethodChange(event: Event): void {
+    const target = event.target as HTMLInputElement;
+    this.selectedPaymentMethod = target.value;
+
+    // Nếu không phải credit card, xóa validators của các trường thẻ
+    const creditCardControls = ['nameOnCard', 'cardNumber', 'securityCode'];
+    if (this.selectedPaymentMethod !== 'creditCard') {
+      creditCardControls.forEach(controlName => {
+        this.checkoutFormGroup.get(`payment.${controlName}`)?.clearValidators();
+        this.checkoutFormGroup.get(`payment.${controlName}`)?.updateValueAndValidity();
+      });
+    } else {
+      // Nếu là credit card, đặt lại validators
+      this.checkoutFormGroup.get('payment.nameOnCard')?.setValidators([Validators.required, Validators.minLength(2)]);
+      this.checkoutFormGroup.get('payment.cardNumber')?.setValidators([Validators.required, Validators.pattern('^[0-9]{16}$')]);
+      this.checkoutFormGroup.get('payment.securityCode')?.setValidators([Validators.required, Validators.pattern('^[0-9]{3}$')]);
+      creditCardControls.forEach(controlName => {
+        this.checkoutFormGroup.get(`payment.${controlName}`)?.updateValueAndValidity();
+      });
+    }
   }
 
   reviewCartDetails() {
@@ -60,34 +109,76 @@ export class CheckoutComponent implements OnInit {
     this.cartService.totalPrice.subscribe(totalPrice => this.totalPrice = totalPrice);
   }
 
-  // HÀM MỚI: ĐƯỢC GỌI KHI NGƯỜI DÙNG CHỌN PHƯƠNG THỨC THANH TOÁN
-  onPaymentMethodChange(event: Event): void {
-    const target = event.target as HTMLInputElement;
-    this.selectedPaymentMethod = target.value;
-  }
+  // // HÀM MỚI: ĐƯỢC GỌI KHI NGƯỜI DÙNG CHỌN PHƯƠNG THỨC THANH TOÁN
+  // onPaymentMethodChange(event: Event): void {
+  //   const target = event.target as HTMLInputElement;
+  //   this.selectedPaymentMethod = target.value;
+  // }
 
   onSubmit() {
     console.log("Handling the submit button");
-    console.log(this.checkoutFormGroup.get('customer')?.value);
-    console.log("The email address is " + this.checkoutFormGroup.get('customer.email')?.value);
-  }
 
-  // Các hàm helper cho tháng/năm
-  getCreditCardMonths(startMonth: number) {
-    let data: number[] = [];
-    for (let theMonth = startMonth; theMonth <= 12; theMonth++) {
-      data.push(theMonth);
+    // Kiểm tra nếu form không hợp lệ
+    if (this.checkoutFormGroup.invalid) {
+      // Chạm vào tất cả các trường để hiển thị lỗi
+      this.checkoutFormGroup.markAllAsTouched();
+      console.log("Form is invalid. Aborting submission.");
+      return;
     }
-    this.creditCardMonths = data;
-  }
 
-  getCreditCardYears() {
-    let data: number[] = [];
-    const startYear: number = new Date().getFullYear();
-    const endYear: number = startYear + 10;
-    for (let theYear = startYear; theYear <= endYear; theYear++) {
-      data.push(theYear);
+    // Nếu form hợp lệ, tiếp tục xử lý
+    console.log("Form is valid. Processing data...");
+
+    // Lấy thông tin khách hàng và địa chỉ giao hàng
+    const customerInfo = this.checkoutFormGroup.get('customer')?.value;
+    const shippingInfo = this.checkoutFormGroup.get('shippingAddress')?.value;
+
+    // Lấy thông tin thanh toán
+    const paymentInfo = this.checkoutFormGroup.get('payment')?.value;
+
+    // Log toàn bộ thông tin ra console để kiểm tra
+    console.log("--- Customer Info ---");
+    console.log(customerInfo);
+
+    console.log("--- Shipping Info ---");
+    console.log(shippingInfo);
+
+    console.log("--- Payment Info ---");
+    console.log(`Payment Method: ${paymentInfo.paymentMethod}`);
+
+    // Chỉ hiển thị thông tin thẻ nếu phương thức là 'creditCard'
+    if (paymentInfo.paymentMethod === 'creditCard') {
+      const creditCardDetails = {
+        nameOnCard: paymentInfo.nameOnCard,
+        cardNumber: paymentInfo.cardNumber,
+        expiration: `${paymentInfo.expirationMonth}/${paymentInfo.expirationYear}`,
+        // Lưu ý: Không bao giờ log hoặc lưu CVV trong môi trường production!
+        // securityCode: paymentInfo.securityCode 
+      };
+      console.log("Credit Card Details:", creditCardDetails);
     }
-    this.creditCardYears = data;
+
+    // =================================================================
+    // BƯỚC TIẾP THEO: TẠI ĐÂY BẠN SẼ GỌI SERVICE ĐỂ GỬI DỮ LIỆU NÀY LÊN SERVER
+    // Ví dụ: this.checkoutService.placeOrder(orderData).subscribe(...)
+    // =================================================================
   }
 }
+// // Các hàm helper cho tháng/năm
+// getCreditCardMonths(startMonth: number) {
+//   let data: number[] = [];
+//   for (let theMonth = startMonth; theMonth <= 12; theMonth++) {
+//     data.push(theMonth);
+//   }
+//   this.creditCardMonths = data;
+// }
+
+// getCreditCardYears() {
+//   let data: number[] = [];
+//   const startYear: number = new Date().getFullYear();
+//   const endYear: number = startYear + 10;
+//   for (let theYear = startYear; theYear <= endYear; theYear++) {
+//     data.push(theYear);
+//   }
+//   this.creditCardYears = data;
+// }
