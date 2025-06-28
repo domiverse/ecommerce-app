@@ -29,28 +29,33 @@ export class CheckoutComponent implements OnInit {
 
     this.checkoutFormGroup = this.formBuilder.group({
       customer: this.formBuilder.group({
-        // THÊM VALIDATORS
         firstName: new FormControl('', [Validators.required, Validators.minLength(2)]),
         lastName: new FormControl('', [Validators.required, Validators.minLength(2)]),
-        companyName: [''], // Tùy chọn, không cần validator
-        email: new FormControl('', [Validators.required, Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$')]),
-        phone: new FormControl('', [Validators.required, Validators.pattern('^[0-9]{10,11}$')])
+        companyName: [''],
+        email: new FormControl('', [
+            Validators.required, 
+            Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$')
+        ]),
+        phone: new FormControl('', [
+            Validators.required, 
+            Validators.pattern('^[0-9]{10,11}$') // Cho phép số điện thoại 10-11 số
+        ])
       }),
       shippingAddress: this.formBuilder.group({
-        address: new FormControl('', [Validators.required, Validators.minLength(2)]),
+        address: new FormControl('', [Validators.required, Validators.minLength(5)]),
         orderNotes: ['']
       }),
       payment: this.formBuilder.group({
         paymentMethod: new FormControl('', [Validators.required]),
-        // THÊM VALIDATORS CHO THẺ TÍN DỤNG
         nameOnCard: new FormControl('', [Validators.required, Validators.minLength(2)]),
         cardNumber: new FormControl('', [Validators.required, Validators.pattern('^[0-9]{16}$')]),
         securityCode: new FormControl('', [Validators.required, Validators.pattern('^[0-9]{3}$')]),
         expirationMonth: [''],
         expirationYear: ['']
       })
-    }
-  );
+      
+    });
+    
 
   // Lấy danh sách năm
     this.checkoutFormService.getCreditCardYears().subscribe(
@@ -58,6 +63,8 @@ export class CheckoutComponent implements OnInit {
         this.creditCardYears = data;
       }
     );
+
+    
 
     // THÊM MỚI: Gọi hàm xử lý logic tháng/năm
     this.handleCreditCardMonths();
@@ -93,12 +100,14 @@ export class CheckoutComponent implements OnInit {
     );
   }
 
-  // THÊM: Các getter để dễ dàng truy cập form controls trong HTML
+ // THÊM MỚI: Các hàm Getter để truy cập form controls
   get firstName() { return this.checkoutFormGroup.get('customer.firstName'); }
   get lastName() { return this.checkoutFormGroup.get('customer.lastName'); }
   get email() { return this.checkoutFormGroup.get('customer.email'); }
   get phone() { return this.checkoutFormGroup.get('customer.phone'); }
-  get shippingAddressAddress() { return this.checkoutFormGroup.get('shippingAddress.address'); }
+
+  get shippingAddress() { return this.checkoutFormGroup.get('shippingAddress.address'); }
+  
   get paymentMethod() { return this.checkoutFormGroup.get('payment.paymentMethod'); }
   get nameOnCard() { return this.checkoutFormGroup.get('payment.nameOnCard'); }
   get cardNumber() { return this.checkoutFormGroup.get('payment.cardNumber'); }
@@ -182,27 +191,13 @@ export class CheckoutComponent implements OnInit {
       console.log("Credit Card Details:", creditCardDetails);
     }
 
-    // =================================================================
-    // BƯỚC TIẾP THEO: TẠI ĐÂY BẠN SẼ GỌI SERVICE ĐỂ GỬI DỮ LIỆU NÀY LÊN SERVER
-    // Ví dụ: this.checkoutService.placeOrder(orderData).subscribe(...)
-    // =================================================================
+    //Đảm bảo rằng người dùng không thể gửi đi đơn hàng nếu form còn lỗi
+    console.log("Handling the submit button");
+
+    if (this.checkoutFormGroup.invalid) {
+      // Dòng này sẽ kích hoạt việc hiển thị tất cả các lỗi của form
+      this.checkoutFormGroup.markAllAsTouched(); 
+      return; // Dừng lại, không xử lý tiếp
+    }
   }
 }
-// // Các hàm helper cho tháng/năm
-// getCreditCardMonths(startMonth: number) {
-//   let data: number[] = [];
-//   for (let theMonth = startMonth; theMonth <= 12; theMonth++) {
-//     data.push(theMonth);
-//   }
-//   this.creditCardMonths = data;
-// }
-
-// getCreditCardYears() {
-//   let data: number[] = [];
-//   const startYear: number = new Date().getFullYear();
-//   const endYear: number = startYear + 10;
-//   for (let theYear = startYear; theYear <= endYear; theYear++) {
-//     data.push(theYear);
-//   }
-//   this.creditCardYears = data;
-// }
