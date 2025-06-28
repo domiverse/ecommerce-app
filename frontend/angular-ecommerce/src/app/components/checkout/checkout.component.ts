@@ -31,6 +31,7 @@ export class CheckoutComponent implements OnInit {
       customer: this.formBuilder.group({
         firstName: new FormControl('', [Validators.required, Validators.minLength(2)]),
         lastName: new FormControl('', [Validators.required, Validators.minLength(2)]),
+        
         companyName: [''],
         email: new FormControl('', [
             Validators.required, 
@@ -48,6 +49,8 @@ export class CheckoutComponent implements OnInit {
       payment: this.formBuilder.group({
         paymentMethod: new FormControl('', [Validators.required]),
         nameOnCard: new FormControl('', [Validators.required, Validators.minLength(2)]),
+
+
         cardNumber: new FormControl('', [Validators.required, Validators.pattern('^[0-9]{16}$')]),
         securityCode: new FormControl('', [Validators.required, Validators.pattern('^[0-9]{3}$')]),
         expirationMonth: [''],
