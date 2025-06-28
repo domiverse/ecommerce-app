@@ -20,6 +20,14 @@ export class CheckoutComponent implements OnInit {
 
   selectedPaymentMethod: string = '';
 
+  vietQRUrl: string = ''; // THÊM DÒNG NÀY: Để lưu URL của ảnh QR
+  // THÊM: Thông tin tài khoản của bạn
+  // THÊM MỚI: Hằng số tỷ giá (bạn có thể thay đổi giá trị này)
+  private readonly EXCHANGE_RATE_USD_TO_VND = 25000; 
+  private readonly BANK_ID = '970423'; // BIN/ID của TPBank
+  private readonly ACCOUNT_NO = '00003502576'; // Số tài khoản của bạn
+
+
   // SỬA: Inject checkoutFormService
   constructor(private formBuilder: FormBuilder,
     private cartService: CartService,
@@ -31,17 +39,17 @@ export class CheckoutComponent implements OnInit {
     this.checkoutFormGroup = this.formBuilder.group({
       customer: this.formBuilder.group({
         firstName: new FormControl('', [Validators.required, Validators.minLength(2), DomiverseValidators.notOnlyWhitespace]),
-        
+
         lastName: new FormControl('', [Validators.required, Validators.minLength(2), DomiverseValidators.notOnlyWhitespace]),
-        
+
         companyName: [''],
         email: new FormControl('', [
-            Validators.required, 
-            Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$')
+          Validators.required,
+          Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$')
         ]),
         phone: new FormControl('', [
-            Validators.required, 
-            Validators.pattern('^[0-9]{10,11}$') // Cho phép số điện thoại 10-11 số
+          Validators.required,
+          Validators.pattern('^[0-9]{10,11}$') // Cho phép số điện thoại 10-11 số
         ])
       }),
       shippingAddress: this.formBuilder.group({
@@ -50,6 +58,7 @@ export class CheckoutComponent implements OnInit {
       }),
       payment: this.formBuilder.group({
         paymentMethod: new FormControl('', [Validators.required]),
+        cardType: new FormControl('', [Validators.required]),
         nameOnCard: new FormControl('', [Validators.required, Validators.minLength(2), DomiverseValidators.notOnlyWhitespace]),
 
 
@@ -58,18 +67,14 @@ export class CheckoutComponent implements OnInit {
         expirationMonth: [''],
         expirationYear: ['']
       })
-      
     });
-    
 
-  // Lấy danh sách năm
+    // Lấy danh sách năm
     this.checkoutFormService.getCreditCardYears().subscribe(
       (data: number[]) => {
         this.creditCardYears = data;
       }
     );
-
-    
 
     // THÊM MỚI: Gọi hàm xử lý logic tháng/năm
     this.handleCreditCardMonths();
@@ -105,19 +110,19 @@ export class CheckoutComponent implements OnInit {
     );
   }
 
- // THÊM MỚI: Các hàm Getter để truy cập form controls
+  // THÊM MỚI: Các hàm Getter để truy cập form controls
   get firstName() { return this.checkoutFormGroup.get('customer.firstName'); }
   get lastName() { return this.checkoutFormGroup.get('customer.lastName'); }
   get email() { return this.checkoutFormGroup.get('customer.email'); }
   get phone() { return this.checkoutFormGroup.get('customer.phone'); }
 
   get shippingAddress() { return this.checkoutFormGroup.get('shippingAddress.address'); }
-  
+
   get paymentMethod() { return this.checkoutFormGroup.get('payment.paymentMethod'); }
   get nameOnCard() { return this.checkoutFormGroup.get('payment.nameOnCard'); }
   get cardNumber() { return this.checkoutFormGroup.get('payment.cardNumber'); }
   get securityCode() { return this.checkoutFormGroup.get('payment.securityCode'); }
-
+  get cardType() { return this.checkoutFormGroup.get('payment.cardType'); }
 
   // SỬA: Cập nhật hàm này để set validator khi chọn phương thức thanh toán
   onPaymentMethodChange(event: Event): void {
@@ -143,16 +148,20 @@ export class CheckoutComponent implements OnInit {
   }
 
   reviewCartDetails() {
-    this.cartService.totalQuantity.subscribe(totalQuantity => this.totalQuantity = totalQuantity);
-    this.cartService.totalPrice.subscribe(totalPrice => this.totalPrice = totalPrice);
+    this.cartService.totalQuantity.subscribe(
+      totalQuantity => this.totalQuantity = totalQuantity
+    );
+
+    this.cartService.totalPrice.subscribe(
+      totalPrice => {
+        this.totalPrice = totalPrice;
+        // THÊM DÒNG NÀY: Gọi hàm tạo QR mỗi khi tổng tiền thay đổi
+        this.generateVietQRUrl(this.totalPrice);
+      }
+    );
   }
 
-  // // HÀM MỚI: ĐƯỢC GỌI KHI NGƯỜI DÙNG CHỌN PHƯƠNG THỨC THANH TOÁN
-  // onPaymentMethodChange(event: Event): void {
-  //   const target = event.target as HTMLInputElement;
-  //   this.selectedPaymentMethod = target.value;
-  // }
-
+  
   onSubmit() {
     console.log("Handling the submit button");
 
@@ -201,8 +210,33 @@ export class CheckoutComponent implements OnInit {
 
     if (this.checkoutFormGroup.invalid) {
       // Dòng này sẽ kích hoạt việc hiển thị tất cả các lỗi của form
-      this.checkoutFormGroup.markAllAsTouched(); 
+      this.checkoutFormGroup.markAllAsTouched();
       return; // Dừng lại, không xử lý tiếp
+    }
+  }
+
+  // generateVietQRUrl(amount: number) {
+  //   if (amount >= 0) {
+  //     const description = "Thanh toan don hang Domiverse"; // Nội dung chuyển khoản
+  //     const url = `https://api.vietqr.io/image/970423-00003502576-print.png?amount=59960&addInfo=Thanh%20toan%20don%20hang%20DOMI99`;
+  //     this.vietQRUrl = url;
+  //     console.log("Generated VietQR URL:", this.vietQRUrl); // Để debug
+  //   }
+  // }
+
+  generateVietQRUrl(amountInUSD: number) {
+    // Bước 1: Chuyển đổi từ USD sang VND và làm tròn thành số nguyên
+    const amountInVND = Math.round(amountInUSD * this.EXCHANGE_RATE_USD_TO_VND);
+
+    // Bước 2: Chỉ tạo URL nếu số tiền lớn hơn hoặc bằng 0
+    if (amountInVND >= 0) {
+        const description = "Thanh toan don hang Domiverse";
+        
+        // Bước 3: Sử dụng biến amountInVND (đã đổi sang VND) để tạo URL
+        const url = `https://api.vietqr.io/image/970423-00003502576-print.png?amount=${amountInVND}&addInfo=${encodeURIComponent(description)}`;
+        
+        this.vietQRUrl = url;
+        console.log(`Generated VietQR URL for ${amountInVND} VND:`, this.vietQRUrl);
     }
   }
 }
