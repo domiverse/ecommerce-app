@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { CartService } from '../../services/cart.service';
 import { CheckoutFormService } from '../../services/checkout-form.service';
+import { DomiverseValidators } from '../../validators/domiverse-validators';
 @Component({
   selector: 'app-checkout',
   standalone: false,
@@ -29,8 +30,9 @@ export class CheckoutComponent implements OnInit {
 
     this.checkoutFormGroup = this.formBuilder.group({
       customer: this.formBuilder.group({
-        firstName: new FormControl('', [Validators.required, Validators.minLength(2)]),
-        lastName: new FormControl('', [Validators.required, Validators.minLength(2)]),
+        firstName: new FormControl('', [Validators.required, Validators.minLength(2), DomiverseValidators.notOnlyWhitespace]),
+        
+        lastName: new FormControl('', [Validators.required, Validators.minLength(2), DomiverseValidators.notOnlyWhitespace]),
         
         companyName: [''],
         email: new FormControl('', [
@@ -43,12 +45,12 @@ export class CheckoutComponent implements OnInit {
         ])
       }),
       shippingAddress: this.formBuilder.group({
-        address: new FormControl('', [Validators.required, Validators.minLength(5)]),
+        address: new FormControl('', [Validators.required, Validators.minLength(5), DomiverseValidators.notOnlyWhitespace]),
         orderNotes: ['']
       }),
       payment: this.formBuilder.group({
         paymentMethod: new FormControl('', [Validators.required]),
-        nameOnCard: new FormControl('', [Validators.required, Validators.minLength(2)]),
+        nameOnCard: new FormControl('', [Validators.required, Validators.minLength(2), DomiverseValidators.notOnlyWhitespace]),
 
 
         cardNumber: new FormControl('', [Validators.required, Validators.pattern('^[0-9]{16}$')]),
