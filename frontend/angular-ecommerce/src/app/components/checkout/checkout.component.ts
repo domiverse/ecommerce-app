@@ -3,6 +3,7 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { CartService } from '../../services/cart.service';
 import { CheckoutFormService } from '../../services/checkout-form.service';
 import { DomiverseValidators } from '../../validators/domiverse-validators';
+import { VietnameseAddressService } from '../../services/vietnamese-address.service';
 @Component({
   selector: 'app-checkout',
   standalone: false,
@@ -17,6 +18,9 @@ export class CheckoutComponent implements OnInit {
 
   creditCardYears: number[] = [];
   creditCardMonths: number[] = [];
+  provinces: any[] = [];
+  districts: any[] = [];
+  wards: any[] = [];
 
   selectedPaymentMethod: string = '';
 
@@ -31,37 +35,35 @@ export class CheckoutComponent implements OnInit {
   // SỬA: Inject checkoutFormService
   constructor(private formBuilder: FormBuilder,
     private cartService: CartService,
-    private checkoutFormService: CheckoutFormService) { } // Inject service
+    private checkoutFormService: CheckoutFormService,
+    private addressService: VietnameseAddressService
+) { } // Inject service
 
   ngOnInit(): void {
-    this.reviewCartDetails();
-
-    this.checkoutFormGroup = this.formBuilder.group({
+this.checkoutFormGroup = this.formBuilder.group({
       customer: this.formBuilder.group({
         firstName: new FormControl('', [Validators.required, Validators.minLength(2), DomiverseValidators.notOnlyWhitespace]),
-
         lastName: new FormControl('', [Validators.required, Validators.minLength(2), DomiverseValidators.notOnlyWhitespace]),
-
         companyName: [''],
         email: new FormControl('', [
-          Validators.required,
-          Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$')
+            Validators.required, 
+            Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$')
         ]),
         phone: new FormControl('', [
-          Validators.required,
-          Validators.pattern('^[0-9]{10,11}$') // Cho phép số điện thoại 10-11 số
+            Validators.required, 
+            Validators.pattern('^[0-9]{10,11}$')
         ])
       }),
       shippingAddress: this.formBuilder.group({
-        address: new FormControl('', [Validators.required, Validators.minLength(5), DomiverseValidators.notOnlyWhitespace]),
-        orderNotes: ['']
+        province: new FormControl('', [Validators.required]),
+        district: new FormControl('', [Validators.required]),
+        ward: new FormControl('', [Validators.required]),
+        street: new FormControl('', [Validators.required, Validators.minLength(5), DomiverseValidators.notOnlyWhitespace])
       }),
       payment: this.formBuilder.group({
         paymentMethod: new FormControl('', [Validators.required]),
         cardType: new FormControl('', [Validators.required]),
         nameOnCard: new FormControl('', [Validators.required, Validators.minLength(2), DomiverseValidators.notOnlyWhitespace]),
-
-
         cardNumber: new FormControl('', [Validators.required, Validators.pattern('^[0-9]{16}$')]),
         securityCode: new FormControl('', [Validators.required, Validators.pattern('^[0-9]{3}$')]),
         expirationMonth: [''],
@@ -69,16 +71,54 @@ export class CheckoutComponent implements OnInit {
       })
     });
 
-    // Lấy danh sách năm
+    // BƯỚC 2: Bắt đầu lấy dữ liệu cho giỏ hàng
+    this.reviewCartDetails();
+
+    // BƯỚC 3: Lấy dữ liệu cho các dropdown và thiết lập logic lắng nghe sự kiện
     this.checkoutFormService.getCreditCardYears().subscribe(
       (data: number[]) => {
         this.creditCardYears = data;
       }
     );
 
-    // THÊM MỚI: Gọi hàm xử lý logic tháng/năm
-    this.handleCreditCardMonths();
-  }
+    this.addressService.getProvinces().subscribe((data: any[]) => { 
+        this.provinces = data;
+    });
+
+    this.setupAddressDropdownsLogic();
+}
+
+setupAddressDropdownsLogic() {
+    // Lắng nghe thay đổi của dropdown Tỉnh/Thành
+    this.shippingProvince?.valueChanges.subscribe((provinceCode: number) => {
+        this.districts = [];
+        this.wards = [];
+        this.shippingDistrict?.setValue('');
+        this.shippingWard?.setValue('');
+
+        if (provinceCode) {
+            this.addressService.getDistricts(provinceCode).subscribe((data: any[]) => {
+                // THÊM DÒNG LOG NÀY ĐỂ DEBUG
+                console.log('Received districts:', data);
+                this.districts = data;
+            });
+        }
+    });
+
+    // Lắng nghe thay đổi của dropdown Quận/Huyện
+    this.shippingDistrict?.valueChanges.subscribe((districtCode: number) => {
+        this.wards = [];
+        this.shippingWard?.setValue('');
+
+        if (districtCode) {
+            this.addressService.getWards(districtCode).subscribe((data: any[]) => {
+                // THÊM DÒNG LOG NÀY ĐỂ DEBUG
+                console.log('Received wards:', data);
+                this.wards = data;
+            });
+        }
+    });
+}
 
   // THÊM MỚI: Hàm xử lý logic chính
   handleCreditCardMonths() {
@@ -116,7 +156,10 @@ export class CheckoutComponent implements OnInit {
   get email() { return this.checkoutFormGroup.get('customer.email'); }
   get phone() { return this.checkoutFormGroup.get('customer.phone'); }
 
-  get shippingAddress() { return this.checkoutFormGroup.get('shippingAddress.address'); }
+  get shippingProvince() { return this.checkoutFormGroup.get('shippingAddress.province'); }
+get shippingDistrict() { return this.checkoutFormGroup.get('shippingAddress.district'); }
+get shippingWard() { return this.checkoutFormGroup.get('shippingAddress.ward'); }
+get shippingStreet() { return this.checkoutFormGroup.get('shippingAddress.street'); }
 
   get paymentMethod() { return this.checkoutFormGroup.get('payment.paymentMethod'); }
   get nameOnCard() { return this.checkoutFormGroup.get('payment.nameOnCard'); }

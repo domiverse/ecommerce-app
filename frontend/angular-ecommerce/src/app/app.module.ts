@@ -27,6 +27,7 @@ import { CartDetailsComponent } from './components/cart-details/cart-details.com
 import { CheckoutComponent } from './components/checkout/checkout.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ContactComponent } from './components/contact/contact.component';
+
 @NgModule({
   declarations: [
     AppComponent,

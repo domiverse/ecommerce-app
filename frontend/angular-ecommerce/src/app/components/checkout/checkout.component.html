@@ -100,21 +100,56 @@
                             </div>
                             <div formGroupName="shippingAddress">
                                 <div class="mb-3">
-                                    <label for="address" class="form-label">Address*</label>
-                                    <input id="address" type="text" class="form-control" placeholder="1234 Main St"
-                                        formControlName="address" />
-
-                                    <div *ngIf="shippingAddress?.invalid && (shippingAddress?.dirty || shippingAddress?.touched)"
+                                    <label for="province" class="form-label">Tỉnh/Thành phố*</label>
+                                    <select id="province" class="form-select" formControlName="province">
+                                        <option value="" disabled>-- Chọn Tỉnh/Thành phố --</option>
+                                        <option *ngFor="let province of provinces" [value]="province.code">
+                                            {{ province.name }}
+                                        </option>
+                                    </select>
+                                    <div *ngIf="shippingProvince?.invalid && (shippingProvince?.dirty || shippingProvince?.touched)"
                                         class="alert alert-danger mt-1 p-2">
-                                        <div *ngIf="shippingAddress?.errors?.['required']">
-                                            Shipping address is required.
-                                        </div>
-                                        <div *ngIf="shippingAddress?.errors?.['minlength']">
-                                            Shipping address must be at least 5 characters long.
-                                        </div>
-                                        <div *ngIf="shippingAddress?.errors?.['notOnlyWhitespace']">
-                                            Shipping address cannot be only whitespace.
-                                        </div>
+                                        Vui lòng chọn Tỉnh/Thành phố.
+                                    </div>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="district" class="form-label">Quận/Huyện*</label>
+                                    <select id="district" class="form-select" formControlName="district"
+                                        [disabled]="!shippingProvince?.value || districts.length === 0">
+                                        <option value="" disabled>-- Chọn Quận/Huyện --</option>
+                                        <option *ngFor="let district of districts" [value]="district.code">
+                                            {{ district.name }}
+                                        </option>
+                                    </select>
+                                    <div *ngIf="shippingDistrict?.invalid && (shippingDistrict?.dirty || shippingDistrict?.touched)"
+                                        class="alert alert-danger mt-1 p-2">
+                                        Vui lòng chọn Quận/Huyện.
+                                    </div>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="ward" class="form-label">Phường/Xã*</label>
+                                    <select id="ward" class="form-select" formControlName="ward"
+                                        [disabled]="!shippingDistrict?.value || wards.length === 0">
+                                        <option value="" disabled>-- Chọn Phường/Xã --</option>
+                                        <option *ngFor="let ward of wards" [value]="ward.code">
+                                            {{ ward.name }}
+                                        </option>
+                                    </select>
+                                    <div *ngIf="shippingWard?.invalid && (shippingWard?.dirty || shippingWard?.touched)"
+                                        class="alert alert-danger mt-1 p-2">
+                                        Vui lòng chọn Phường/Xã.
+                                    </div>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="street" class="form-label">Địa chỉ cụ thể (Số nhà, tên đường)*</label>
+                                    <input id="street" type="text" class="form-control"
+                                        placeholder="Ví dụ: 123 Võ Văn Ngân" formControlName="street" />
+                                    <div *ngIf="shippingStreet?.invalid && (shippingStreet?.dirty || shippingStreet?.touched)"
+                                        class="alert alert-danger mt-1 p-2">
+                                        Vui lòng nhập địa chỉ cụ thể.
                                     </div>
                                 </div>
                             </div>
