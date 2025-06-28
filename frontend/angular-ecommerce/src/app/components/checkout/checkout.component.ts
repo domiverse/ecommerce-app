@@ -74,8 +74,7 @@ this.checkoutFormGroup = this.formBuilder.group({
     // BƯỚC 2: Bắt đầu lấy dữ liệu cho giỏ hàng
     this.reviewCartDetails();
 
-    // BƯỚC 3: Lấy dữ liệu cho các dropdown và thiết lập logic lắng nghe sự kiện
-    this.checkoutFormService.getCreditCardYears().subscribe(
+ this.checkoutFormService.getCreditCardYears().subscribe(
       (data: number[]) => {
         this.creditCardYears = data;
       }
@@ -86,6 +85,9 @@ this.checkoutFormGroup = this.formBuilder.group({
     });
 
     this.setupAddressDropdownsLogic();
+
+    // SỬA LẠI TÊN HÀM GỌI Ở ĐÂY
+    this.handleCreditCardMonthsAndYears();
 }
 
 setupAddressDropdownsLogic() {
@@ -121,10 +123,11 @@ setupAddressDropdownsLogic() {
 }
 
   // THÊM MỚI: Hàm xử lý logic chính
-  handleCreditCardMonths() {
+ handleCreditCardMonthsAndYears() {
+
     const creditCardFormGroup = this.checkoutFormGroup.get('payment');
 
-    // Lắng nghe sự thay đổi của ô chọn NĂM
+    // Lắng nghe sự kiện thay đổi của ô chọn NĂM
     creditCardFormGroup?.get('expirationYear')?.valueChanges.subscribe(
       yearString => {
         const selectedYear = Number(yearString);
@@ -133,14 +136,12 @@ setupAddressDropdownsLogic() {
 
         if (selectedYear === currentYear) {
           // Nếu là năm hiện tại, tháng bắt đầu là tháng hiện tại
-          // Tháng trong new Date() là 0-indexed, nên cần +1
           startMonth = new Date().getMonth() + 1;
         } else {
           // Nếu là các năm trong tương lai, tháng bắt đầu là 1
           startMonth = 1;
         }
 
-        // Gọi service để lấy lại danh sách tháng
         this.checkoutFormService.getCreditCardMonths(startMonth).subscribe(
           (data: number[]) => {
             this.creditCardMonths = data;
@@ -148,7 +149,17 @@ setupAddressDropdownsLogic() {
         );
       }
     );
-  }
+    
+    // LẤY DỮ LIỆU THÁNG CHO LẦN ĐẦU TIÊN
+    // Khi component vừa tải, chúng ta sẽ mặc định lấy các tháng của năm hiện tại
+    const initialStartMonth = new Date().getMonth() + 1;
+    this.checkoutFormService.getCreditCardMonths(initialStartMonth).subscribe(
+        (data: number[]) => {
+            console.log("Retrieved initial credit card months: " + JSON.stringify(data));
+            this.creditCardMonths = data;
+        }
+    );
+}
 
   // THÊM MỚI: Các hàm Getter để truy cập form controls
   get firstName() { return this.checkoutFormGroup.get('customer.firstName'); }
