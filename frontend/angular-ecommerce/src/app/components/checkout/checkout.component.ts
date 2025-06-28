@@ -49,22 +49,46 @@ export class CheckoutComponent implements OnInit {
         expirationMonth: [''],
         expirationYear: ['']
       })
-    });
+    }
+  );
 
-    // SỬA: Lấy dữ liệu tháng/năm từ Service
-    this.checkoutFormService.getCreditCardMonths().subscribe(
-      // Thêm kiểu dữ liệu (data: number[])
+  // Lấy danh sách năm
+    this.checkoutFormService.getCreditCardYears().subscribe(
       (data: number[]) => {
-        console.log("Retrieved credit card months: " + JSON.stringify(data));
-        this.creditCardMonths = data;
+        this.creditCardYears = data;
       }
     );
 
-    this.checkoutFormService.getCreditCardYears().subscribe(
-      // Thêm kiểu dữ liệu (data: number[])
-      (data: number[]) => {
-        console.log("Retrieved credit card years: " + JSON.stringify(data));
-        this.creditCardYears = data;
+    // THÊM MỚI: Gọi hàm xử lý logic tháng/năm
+    this.handleCreditCardMonths();
+  }
+
+  // THÊM MỚI: Hàm xử lý logic chính
+  handleCreditCardMonths() {
+    const creditCardFormGroup = this.checkoutFormGroup.get('payment');
+
+    // Lắng nghe sự thay đổi của ô chọn NĂM
+    creditCardFormGroup?.get('expirationYear')?.valueChanges.subscribe(
+      yearString => {
+        const selectedYear = Number(yearString);
+        const currentYear = new Date().getFullYear();
+        let startMonth: number;
+
+        if (selectedYear === currentYear) {
+          // Nếu là năm hiện tại, tháng bắt đầu là tháng hiện tại
+          // Tháng trong new Date() là 0-indexed, nên cần +1
+          startMonth = new Date().getMonth() + 1;
+        } else {
+          // Nếu là các năm trong tương lai, tháng bắt đầu là 1
+          startMonth = 1;
+        }
+
+        // Gọi service để lấy lại danh sách tháng
+        this.checkoutFormService.getCreditCardMonths(startMonth).subscribe(
+          (data: number[]) => {
+            this.creditCardMonths = data;
+          }
+        );
       }
     );
   }

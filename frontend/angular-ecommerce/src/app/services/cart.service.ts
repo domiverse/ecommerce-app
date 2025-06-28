@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { CartItem } from '../common/cart-item';
-import { BehaviorSubject, Subject } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -9,9 +9,10 @@ export class CartService {
 
   cartItems: CartItem[] = [];
 
-  // Sử dụng Subject để có thể lấy giá trị cuối cùng ngay khi đăng ký
-  totalPrice: Subject<number> = new Subject<number>();
-  totalQuantity: Subject<number> = new Subject<number>();
+  // Sử dụng BehaviorSubject để có thể lấy giá trị cuối cùng ngay khi đăng ký
+ totalPrice: BehaviorSubject<number> = new BehaviorSubject<number>(0);
+  totalQuantity: BehaviorSubject<number> = new BehaviorSubject<number>(0);
+
 
   constructor() { }
 
