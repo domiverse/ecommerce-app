@@ -58,7 +58,9 @@ this.checkoutFormGroup = this.formBuilder.group({
         province: new FormControl('', [Validators.required]),
         district: new FormControl('', [Validators.required]),
         ward: new FormControl('', [Validators.required]),
-        street: new FormControl('', [Validators.required, Validators.minLength(5), DomiverseValidators.notOnlyWhitespace])
+        street: new FormControl('', [Validators.required, Validators.minLength(5), DomiverseValidators.notOnlyWhitespace]),
+        orderNotes: [''] 
+
       }),
       payment: this.formBuilder.group({
         paymentMethod: new FormControl('', [Validators.required]),
