@@ -271,14 +271,6 @@ get shippingStreet() { return this.checkoutFormGroup.get('shippingAddress.street
     }
   }
 
-  // generateVietQRUrl(amount: number) {
-  //   if (amount >= 0) {
-  //     const description = "Thanh toan don hang Domiverse"; // Nội dung chuyển khoản
-  //     const url = `https://api.vietqr.io/image/970423-00003502576-print.png?amount=59960&addInfo=Thanh%20toan%20don%20hang%20DOMI99`;
-  //     this.vietQRUrl = url;
-  //     console.log("Generated VietQR URL:", this.vietQRUrl); // Để debug
-  //   }
-  // }
 
   generateVietQRUrl(amountInUSD: number) {
     // Bước 1: Chuyển đổi từ USD sang VND và làm tròn thành số nguyên
