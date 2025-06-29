@@ -64,7 +64,7 @@
 3️⃣  CÀI ĐẶT BACKEND (SPRING BOOT) ☕
     - Mở thư mục `backend` bằng IDE của bạn.
     - Cập nhật file `application.properties` với thông tin database của bạn.
-    - Chạy ứng dụng Spring Boot. Server sẽ chạy tại `http://localhost:8080`.
+    - Chạy ứng dụng Spring Boot. Server sẽ chạy tại `http://localhost:8081`.
 
 4️⃣  CÀI ĐẶT FRONTEND (ANGULAR) 🅰️
     - Di chuyển tới thư mục `frontend/angular-ecommerce`.
@@ -88,3 +88,19 @@
     │   └── angular-ecommerce/
     │
     └── 📄 .gitignore
+*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*
+
+📚 Giao diện sản phẩm
+![Image](https://github.com/user-attachments/assets/2a7c8329-398a-4e3f-9950-3599603da322)
+![Image](https://github.com/user-attachments/assets/00c57b6f-a044-451b-9a35-3f381dd82793)
+![Image](https://github.com/user-attachments/assets/9a9944d5-6a34-4578-a79f-0eaa65a327d1)
+
+🛒 Giao diện giỏ hàng
+![Image](https://github.com/user-attachments/assets/b4f1fa41-fbc0-492b-976f-02e37f1c2306)
+![Image](https://github.com/user-attachments/assets/be3937cc-1123-49f2-ab2e-2a1c9b0049c6)
+
+💳 Giao diện thanh toán
+![Image](https://github.com/user-attachments/assets/5e0c7d71-d3f5-4e4f-afa8-ab6103266ee9)
+![Image](https://github.com/user-attachments/assets/b3082455-9d04-4bd6-9bd8-9672600db9c3)
+![Image](https://github.com/user-attachments/assets/25992127-99db-4249-9835-2f07aa30fea5)
+![Image](https://github.com/user-attachments/assets/59f8ae85-08cc-49bd-bc7e-a1547b92ab43)
