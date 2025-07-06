@@ -22,6 +22,8 @@ public class MyDataRestConfig implements RepositoryRestConfigurer {
 
     @Autowired
     public MyDataRestConfig(EntityManager entityManager){
+        // This constructor allows us to inject the EntityManager
+        // which is used to access the metadata of the entities
         this.entityManager = entityManager;
     }
 
@@ -37,6 +39,7 @@ public class MyDataRestConfig implements RepositoryRestConfigurer {
                 .withItemExposure((metdata, httpMethods) -> httpMethods.disable(theUnsupportedActions))
                 .withCollectionExposure((metdata, httpMethods) -> httpMethods.disable(theUnsupportedActions));
 
+
         //Disable HTTP Methods for ProductCategory: PUT, POST, and DELETE
         config.getExposureConfiguration()
                 .forDomainType(ProductCategory.class)
@@ -46,22 +49,6 @@ public class MyDataRestConfig implements RepositoryRestConfigurer {
         //call an internal helper method
         exposeIds(config);
     }
-//    private void exposeIds(RepositoryRestConfiguration config){
-//        //expose entity id
-//        //get a list  of entity classes from the entity manager
-//        Set<EntityType> entities = entityManager.getMetamodel().getEntities();
-//
-//        // create an array of the entity types
-//        List<Class> entityClasses = new ArrayList<>();
-//
-//        //get the enitity types for the entities
-//        for(EntityType tempEntityType : entities){
-//            entityClasses.add(tempEntityType.getJavaType());
-//        }
-//        //expose the entity ids for the array of  entity/domain types
-//        Class[] domainTypes = entityClasses.toArray(new Class[0]);
-//        config.exposeIdsFor(domainTypes);
-//    }
     private void exposeIds(RepositoryRestConfiguration config) {
         // Lấy danh sách entity types từ entity manager
         Set<EntityType<?>> entities = entityManager.getMetamodel().getEntities();
@@ -74,4 +61,6 @@ public class MyDataRestConfig implements RepositoryRestConfigurer {
         Class[] domainTypes = entityClasses.toArray(new Class[0]);
         config.exposeIdsFor(domainTypes);
     }
+
+
 }
