@@ -21,4 +21,10 @@ public class Address {
     @Column(name = "city")
     private String city;
 
+    @Column(name = "billing_address")
+    private String billingAddress;
+
+    @Column(name = "shipping_address")
+    private String shippingAddress;
+
 }
