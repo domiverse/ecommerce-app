@@ -46,16 +46,25 @@ public class Order {
     private Set<OrderItem> orderItems = new HashSet<>();
 
     @ManyToOne
+    @JoinColumn(name = "customer_id")
     private Customer customer;
 
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "shipping_address_id")
+    private Address shippingAddress;
+
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "billing_address_id")
+    private Address billingAddress;
 
     public void add(OrderItem item) {
         if (item != null) {
-            if (orderItems != null) {
+            if (orderItems == null) { // <--- Sửa ở đây
                 orderItems = new HashSet<>();
             }
             orderItems.add(item);
             item.setOrder(this);
         }
+    }
 }
-}
+
