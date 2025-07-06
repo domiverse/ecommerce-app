@@ -10,7 +10,7 @@ import { ProductService } from '../../services/product.service';
   selector: 'app-product-category-menu',
   standalone: false,
   templateUrl: './product-category-menu.component.html',
-  styleUrls: ['./product-category-menu.component.css'] 
+  styleUrls: ['./product-category-menu.component.css'] // GHI CHÚ: Dùng styleUrls (số nhiều)
 })
 export class ProductCategoryMenuComponent implements OnInit {
 
@@ -29,12 +29,12 @@ export class ProductCategoryMenuComponent implements OnInit {
     this.listProductCategories();
 
     // Theo dõi thay đổi route để đóng/mở menu hợp lý
-    this.router.events.pipe(
-      filter(event => event instanceof NavigationEnd)
-    ).subscribe(() => {
-      // Tự động mở menu sản phẩm nếu người dùng đang ở trang sản phẩm
-      this.isProductMenuOpen = this.isProductsRouteActive();
-    });
+    // this.router.events.pipe(
+    //   filter(event => event instanceof NavigationEnd)
+    // ).subscribe(() => {
+    //   // Tự động mở menu sản phẩm nếu người dùng đang ở trang sản phẩm
+    //   this.isProductMenuOpen = this.isProductsRouteActive();
+    // });
   }
 
   listProductCategories(): void {
