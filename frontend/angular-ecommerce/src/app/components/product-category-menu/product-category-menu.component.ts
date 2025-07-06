@@ -10,7 +10,7 @@ import { ProductService } from '../../services/product.service';
   selector: 'app-product-category-menu',
   standalone: false,
   templateUrl: './product-category-menu.component.html',
-  styleUrls: ['./product-category-menu.component.css'] // GHI CHÚ: Dùng styleUrls (số nhiều)
+  styleUrls: ['./product-category-menu.component.css'] 
 })
 export class ProductCategoryMenuComponent implements OnInit {
 
