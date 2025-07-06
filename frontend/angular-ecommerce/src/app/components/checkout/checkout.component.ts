@@ -27,7 +27,7 @@ export class CheckoutComponent implements OnInit {
   vietQRUrl: string = ''; // THÊM DÒNG NÀY: Để lưu URL của ảnh QR
   // THÊM: Thông tin tài khoản của bạn
   // THÊM MỚI: Hằng số tỷ giá (bạn có thể thay đổi giá trị này)
-  private readonly EXCHANGE_RATE_USD_TO_VND = 25000; 
+  private readonly EXCHANGE_RATE_USD_TO_VND = 100; 
   private readonly BANK_ID = '970423'; // BIN/ID của TPBank
   private readonly ACCOUNT_NO = '00003502576'; // Số tài khoản của bạn
 
