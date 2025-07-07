@@ -1,9 +1,14 @@
+import { CartItem } from './../../common/cart-item';
+import { CheckoutService } from './../../services/checkout.service';
+import { DomiverseValidators } from './../../validators/domiverse-validators';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { CartService } from '../../services/cart.service';
 import { CheckoutFormService } from '../../services/checkout-form.service';
-import { DomiverseValidators } from '../../validators/domiverse-validators';
 import { VietnameseAddressService } from '../../services/vietnamese-address.service';
+import { Router } from '@angular/router';
+import { Order } from '../../common/order';
+import { OrderItem } from '../../common/order-item';
 @Component({
   selector: 'app-checkout',
   standalone: false,
@@ -36,7 +41,10 @@ export class CheckoutComponent implements OnInit {
   constructor(private formBuilder: FormBuilder,
     private cartService: CartService,
     private checkoutFormService: CheckoutFormService,
-    private addressService: VietnameseAddressService
+    private addressService: VietnameseAddressService,
+    private domiverseValidators:  DomiverseValidators,
+    private checkoutService: CheckoutService,
+    private router: Router
 ) { } // Inject service
 
   ngOnInit(): void {
@@ -228,6 +236,24 @@ get shippingStreet() { return this.checkoutFormGroup.get('shippingAddress.street
       console.log("Form is invalid. Aborting submission.");
       return;
     }
+
+    // Set up order
+    let order = new Order();
+    order.totalPrice = this.totalPrice;
+    order.totalQuantity = this.totalQuantity;
+
+    //get cart items
+    const cartItems = this.cartService.cartItems;
+
+    // tạo order từ orderitems
+    let orderItems: OrderItem[] = cartItems.map(tempcartItem => new OrderItem(tempcartItem));
+
+
+
+
+
+
+
 
     // Nếu form hợp lệ, tiếp tục xử lý
     console.log("Form is valid. Processing data...");
