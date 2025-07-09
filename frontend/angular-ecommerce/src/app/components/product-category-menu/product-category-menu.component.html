@@ -1,22 +1,23 @@
 <div class="menu-sidebar-content">
-<div class="sidebar-header">
-  <img src="assets/images/domiverse-logo.png" alt="Domiverse Logo" class="logo-image">
-  <p class="logo-subtext">eCommerce Project</p>
-</div>
+  <div class="sidebar-header">
+    <img src="assets/images/domiverse-logo.png" alt="Domiverse Logo" class="logo-image">
+    <p class="logo-subtext">eCommerce Project</p>
+  </div>
 
   <nav class="navbar-sidebar">
     <ul class="list-unstyled navbar-list">
-      
+
       <li>
         <a (click)="toggleProductMenu()" [class.active-link]="isProductsRouteActive()" class="has-sub">
           <i class="fas fa-boxes-stacked icon"></i>
           <span class="text">Products</span>
           <i class="fas fa-chevron-right chevron" [class.rotated]="isProductMenuOpen"></i>
         </a>
-        
+
         <ul *ngIf="isProductMenuOpen" class="list-unstyled navbar-sublist">
           <li *ngFor="let tempProductCategory of productCategories">
-            <a routerLink="/category/{{ tempProductCategory.id }}/{{ tempProductCategory.categoryName }}" routerLinkActive="active-link">
+            <a routerLink="/category/{{ tempProductCategory.id }}/{{ tempProductCategory.categoryName }}"
+              routerLinkActive="active-link">
               <i class="fas fa-angle-right icon"></i>
               <span class="text">{{ tempProductCategory.categoryName }}</span>
             </a>
@@ -25,7 +26,7 @@
       </li>
 
       <li>
-        <a routerLink="/contact" routerLinkActive="active-link">
+        <a routerLink="/contacts" routerLinkActive="active-link">
           <i class="fas fa-envelope icon"></i>
           <span class="text">Contact</span>
         </a>

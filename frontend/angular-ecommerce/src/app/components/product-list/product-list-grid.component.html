@@ -2,7 +2,7 @@
     <div class="section-content section-content-p30">
 
         <div class="sticky-lg-top">
-            <h4>Category: {{ currentCategoryName }}</h4>
+            <h4>Danh mục: {{ currentCategoryName }}</h4>
             <hr>
         </div>
 
@@ -19,18 +19,15 @@
                             <h1>{{ tempProduct.name }}</h1>
                         </a>
                         <div class="price">{{ tempProduct.unitPrice | currency:'USD' }}</div>
-                        <!-- <a href="#" class="primary-btn">Add to cart</a> -->
-                        <!-- <button (click)="addToCart(tempProduct)" class="btn btn-primary btn-sm">Add to cart</button> -->
 
-                        <button (click)="addToCart(tempProduct)" class="btn btn-primary btn-sm mt-2">Add to
-                            cart</button>
+                        <button (click)="addToCart(tempProduct)" class="btn btn-primary btn-sm mt-2">Thêm vào giỏ hàng</button>
 
 
                     </div>
 
                 </div>
                 <!-- if product empty then display a message -->
-                <div *ngIf="products?.length == 0" class="alert alert-warning col-md-12" role="alert">No products found
+                <div *ngIf="products?.length == 0" class="alert alert-warning col-md-12" role="alert">Không có sản phẩm nào trong danh mục này.</div>
                 </div>
 
             </div>
@@ -43,7 +40,7 @@
 
                     <!-- TRÁI: Dropdown chọn số lượng item trên trang -->
                     <div class="d-flex align-items-center">
-                        <span class="me-2 text-muted fw-bold">Items per page:</span>
+                        <span class="me-2 text-muted fw-bold">Số sản phẩm trên trang:</span>
                         <select class="form-select form-select-sm" style="width: auto;" [(ngModel)]="thePageSize"
                             (ngModelChange)="onPageSizeChange()">
                             <option *ngFor="let size of rowsPerPageOptions" [ngValue]="size">
@@ -59,7 +56,7 @@
 
                             <!-- Nút Previous -->
                             <li class="page-item" [class.disabled]="thePageNumber === 1">
-                                <a class="page-link" (click)="goToPage(thePageNumber - 1)">Previous</a>
+                                <a class="page-link" (click)="goToPage(thePageNumber - 1)">Trước</a>
                             </li>
 
                             <!-- 
@@ -81,7 +78,7 @@
 
                             <!-- Nút Next -->
                             <li class="page-item" [class.disabled]="thePageNumber >= totalPages">
-                                <a class="page-link" (click)="goToPage(thePageNumber + 1)">Next</a>
+                                <a class="page-link" (click)="goToPage(thePageNumber + 1)">Tiếp theo</a>
                             </li>
 
                         </ul>
@@ -89,10 +86,10 @@
 
                     <!-- PHẢI: Thông tin hiển thị số lượng sản phẩm -->
                     <div class="text-muted fw-bold" *ngIf="theTotalElement > 0">
-                        Showing {{ (thePageNumber - 1) * thePageSize + 1 }}
-                        to {{ (thePageNumber * thePageSize) > theTotalElement ? theTotalElement : (thePageNumber *
+                        Hiển thị {{ (thePageNumber - 1) * thePageSize + 1 }}
+                        đến {{ (thePageNumber * thePageSize) > theTotalElement ? theTotalElement : (thePageNumber *
                         thePageSize) }}
-                        of {{ theTotalElement }}
+                        trong tổng số {{ theTotalElement }}
                     </div>
 
                 </div>

@@ -1,7 +1,7 @@
 <div class="cart-details-container">
 
     <div class="section-header">
-        <h3>Shopping Cart</h3>
+        <h3>Giỏ hàng</h3>
     </div>
 
     <!-- Container chính sử dụng Bootstrap Row -->
@@ -13,8 +13,8 @@
 
             <!-- Thông báo nếu giỏ hàng trống -->
             <div *ngIf="cartItems.length == 0" class="alert alert-info" role="alert">
-                <p class="mb-0">Your shopping cart is empty. Let's add some products!</p>
-                <a routerLink="/products" class="alert-link">Continue Shopping</a>
+                <p class="mb-0">Giỏ hàng của bạn đang trống. Hãy thêm sản phẩm!</p>
+                <a routerLink="/products" class="alert-link">Tiếp tục mua sắm</a>
             </div>
 
             <!-- Danh sách các sản phẩm trong giỏ hàng -->
@@ -38,7 +38,7 @@
                     </div>
                     
                     <div class="remove-action">
-                        <button (click)="remove(item)" class="btn btn-sm btn-link text-danger">Remove</button>
+                        <button (click)="remove(item)" class="btn btn-sm btn-link text-danger">Xóa</button>
                     </div>
                 </div>
             </div>
@@ -49,23 +49,23 @@
         <!-- GHI CHÚ: Thêm lớp 'sticky-summary-column' để hiệu ứng sticky hoạt động -->
         <div class="col-lg-4 sticky-summary-column">
             <div class="summary-box">
-                <h4>Order Summary</h4>
+                <h4>Tổng đơn hàng</h4>
                 <div class="summary-details">
                     <p>
-                        <span>Total Quantity:</span>
+                        <span>Tổng số lượng:</span>
                         <span>{{ totalQuantity }}</span>
                     </p>
                     <p>
-                        <span>Shipping:</span>
-                        <span>FREE</span>
+                        <span>Vận chuyển:</span>
+                        <span>MIỄN PHÍ</span>
                     </p>
                 </div>
                 <hr>
                 <div class="total-price-section">
-                    <strong>Total Price:</strong>
+                    <strong>Tổng giá:</strong>
                     <strong>{{ totalPrice | currency:'USD' }}</strong>
                 </div>
-                <a routerLink="/checkout" class="btn btn-primary w-100 mt-3">Proceed to Checkout</a>
+                <a routerLink="/checkout" class="btn btn-primary w-100 mt-3">Tiến hành thanh toán</a>
             </div>
         </div>
 
