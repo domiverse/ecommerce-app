@@ -1,4 +1,6 @@
 package com.domiverse.Ecommerce.entity;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -43,10 +45,12 @@ public class Order {
     private Date lastUpdated;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "order")
+    @JsonManagedReference("order-orderitem")
     private Set<OrderItem> orderItems = new HashSet<>();
 
     @ManyToOne
     @JoinColumn(name = "customer_id")
+    @JsonBackReference("customer-order")
     private Customer customer;
 
     @ManyToOne(cascade = CascadeType.ALL)

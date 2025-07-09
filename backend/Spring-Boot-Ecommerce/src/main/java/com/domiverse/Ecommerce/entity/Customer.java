@@ -1,6 +1,7 @@
 package com.domiverse.Ecommerce.entity;
 
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -29,8 +30,8 @@ public class Customer {
     private String email;
 
     @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL)
+    @JsonManagedReference("customer-order")
     private Set<Order> orders = new HashSet<>();
-
     // Thêm hàm tiện ích để đồng bộ hai chiều
     public void add(Order order) {
         if (order != null) {
