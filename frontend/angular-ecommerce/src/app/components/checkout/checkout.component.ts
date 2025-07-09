@@ -1,6 +1,5 @@
 import { CartItem } from './../../common/cart-item';
 import { CheckoutService } from './../../services/checkout.service';
-import { DomiverseValidators } from './../../validators/domiverse-validators';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { CartService } from '../../services/cart.service';
@@ -9,6 +8,8 @@ import { VietnameseAddressService } from '../../services/vietnamese-address.serv
 import { Router } from '@angular/router';
 import { Order } from '../../common/order';
 import { OrderItem } from '../../common/order-item';
+import { Purchase } from '../../common/purchase';
+import { DomiverseValidators } from '../../validators/domiverse-validators';
 @Component({
   selector: 'app-checkout',
   standalone: false,
@@ -32,7 +33,7 @@ export class CheckoutComponent implements OnInit {
   vietQRUrl: string = ''; // THÊM DÒNG NÀY: Để lưu URL của ảnh QR
   // THÊM: Thông tin tài khoản của bạn
   // THÊM MỚI: Hằng số tỷ giá (bạn có thể thay đổi giá trị này)
-  private readonly EXCHANGE_RATE_USD_TO_VND = 25000; 
+  private readonly EXCHANGE_RATE_USD_TO_VND = 25000;
   private readonly BANK_ID = '970423'; // BIN/ID của TPBank
   private readonly ACCOUNT_NO = '00003502576'; // Số tài khoản của bạn
 
@@ -42,24 +43,23 @@ export class CheckoutComponent implements OnInit {
     private cartService: CartService,
     private checkoutFormService: CheckoutFormService,
     private addressService: VietnameseAddressService,
-    private domiverseValidators:  DomiverseValidators,
     private checkoutService: CheckoutService,
     private router: Router
-) { } // Inject service
+  ) { } // Inject service
 
   ngOnInit(): void {
-this.checkoutFormGroup = this.formBuilder.group({
+    this.checkoutFormGroup = this.formBuilder.group({
       customer: this.formBuilder.group({
         firstName: new FormControl('', [Validators.required, Validators.minLength(2), DomiverseValidators.notOnlyWhitespace]),
         lastName: new FormControl('', [Validators.required, Validators.minLength(2), DomiverseValidators.notOnlyWhitespace]),
         companyName: [''],
         email: new FormControl('', [
-            Validators.required, 
-            Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$')
+          Validators.required,
+          Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$')
         ]),
         phone: new FormControl('', [
-            Validators.required, 
-            Validators.pattern('^[0-9]{10,11}$')
+          Validators.required,
+          Validators.pattern('^[0-9]{10,11}$')
         ])
       }),
       shippingAddress: this.formBuilder.group({
@@ -67,8 +67,7 @@ this.checkoutFormGroup = this.formBuilder.group({
         district: new FormControl('', [Validators.required]),
         ward: new FormControl('', [Validators.required]),
         street: new FormControl('', [Validators.required, Validators.minLength(5), DomiverseValidators.notOnlyWhitespace]),
-        orderNotes: [''] 
-
+        orderNotes: ['']
       }),
       payment: this.formBuilder.group({
         paymentMethod: new FormControl('', [Validators.required]),
@@ -84,56 +83,56 @@ this.checkoutFormGroup = this.formBuilder.group({
     // BƯỚC 2: Bắt đầu lấy dữ liệu cho giỏ hàng
     this.reviewCartDetails();
 
- this.checkoutFormService.getCreditCardYears().subscribe(
+    this.checkoutFormService.getCreditCardYears().subscribe(
       (data: number[]) => {
         this.creditCardYears = data;
       }
     );
 
-    this.addressService.getProvinces().subscribe((data: any[]) => { 
-        this.provinces = data;
+    this.addressService.getProvinces().subscribe((data: any[]) => {
+      this.provinces = data;
     });
 
     this.setupAddressDropdownsLogic();
 
     // SỬA LẠI TÊN HÀM GỌI Ở ĐÂY
     this.handleCreditCardMonthsAndYears();
-}
+  }
 
-setupAddressDropdownsLogic() {
+  setupAddressDropdownsLogic() {
     // Lắng nghe thay đổi của dropdown Tỉnh/Thành
     this.shippingProvince?.valueChanges.subscribe((provinceCode: number) => {
-        this.districts = [];
-        this.wards = [];
-        this.shippingDistrict?.setValue('');
-        this.shippingWard?.setValue('');
+      this.districts = [];
+      this.wards = [];
+      this.shippingDistrict?.setValue('');
+      this.shippingWard?.setValue('');
 
-        if (provinceCode) {
-            this.addressService.getDistricts(provinceCode).subscribe((data: any[]) => {
-                // THÊM DÒNG LOG NÀY ĐỂ DEBUG
-                console.log('Received districts:', data);
-                this.districts = data;
-            });
-        }
+      if (provinceCode) {
+        this.addressService.getDistricts(provinceCode).subscribe((data: any[]) => {
+          // THÊM DÒNG LOG NÀY ĐỂ DEBUG
+          console.log('Received districts:', data);
+          this.districts = data;
+        });
+      }
     });
 
     // Lắng nghe thay đổi của dropdown Quận/Huyện
     this.shippingDistrict?.valueChanges.subscribe((districtCode: number) => {
-        this.wards = [];
-        this.shippingWard?.setValue('');
+      this.wards = [];
+      this.shippingWard?.setValue('');
 
-        if (districtCode) {
-            this.addressService.getWards(districtCode).subscribe((data: any[]) => {
-                // THÊM DÒNG LOG NÀY ĐỂ DEBUG
-                console.log('Received wards:', data);
-                this.wards = data;
-            });
-        }
+      if (districtCode) {
+        this.addressService.getWards(districtCode).subscribe((data: any[]) => {
+          // THÊM DÒNG LOG NÀY ĐỂ DEBUG
+          console.log('Received wards:', data);
+          this.wards = data;
+        });
+      }
     });
-}
+  }
 
   // THÊM MỚI: Hàm xử lý logic chính
- handleCreditCardMonthsAndYears() {
+  handleCreditCardMonthsAndYears() {
 
     const creditCardFormGroup = this.checkoutFormGroup.get('payment');
 
@@ -159,17 +158,17 @@ setupAddressDropdownsLogic() {
         );
       }
     );
-    
+
     // LẤY DỮ LIỆU THÁNG CHO LẦN ĐẦU TIÊN
     // Khi component vừa tải, chúng ta sẽ mặc định lấy các tháng của năm hiện tại
     const initialStartMonth = new Date().getMonth() + 1;
     this.checkoutFormService.getCreditCardMonths(initialStartMonth).subscribe(
-        (data: number[]) => {
-            console.log("Retrieved initial credit card months: " + JSON.stringify(data));
-            this.creditCardMonths = data;
-        }
+      (data: number[]) => {
+        console.log("Retrieved initial credit card months: " + JSON.stringify(data));
+        this.creditCardMonths = data;
+      }
     );
-}
+  }
 
   // THÊM MỚI: Các hàm Getter để truy cập form controls
   get firstName() { return this.checkoutFormGroup.get('customer.firstName'); }
@@ -178,9 +177,9 @@ setupAddressDropdownsLogic() {
   get phone() { return this.checkoutFormGroup.get('customer.phone'); }
 
   get shippingProvince() { return this.checkoutFormGroup.get('shippingAddress.province'); }
-get shippingDistrict() { return this.checkoutFormGroup.get('shippingAddress.district'); }
-get shippingWard() { return this.checkoutFormGroup.get('shippingAddress.ward'); }
-get shippingStreet() { return this.checkoutFormGroup.get('shippingAddress.street'); }
+  get shippingDistrict() { return this.checkoutFormGroup.get('shippingAddress.district'); }
+  get shippingWard() { return this.checkoutFormGroup.get('shippingAddress.ward'); }
+  get shippingStreet() { return this.checkoutFormGroup.get('shippingAddress.street'); }
 
   get paymentMethod() { return this.checkoutFormGroup.get('payment.paymentMethod'); }
   get nameOnCard() { return this.checkoutFormGroup.get('payment.nameOnCard'); }
@@ -193,22 +192,28 @@ get shippingStreet() { return this.checkoutFormGroup.get('shippingAddress.street
     const target = event.target as HTMLInputElement;
     this.selectedPaymentMethod = target.value;
 
-    // Nếu không phải credit card, xóa validators của các trường thẻ
-    const creditCardControls = ['nameOnCard', 'cardNumber', 'securityCode'];
-    if (this.selectedPaymentMethod !== 'creditCard') {
-      creditCardControls.forEach(controlName => {
-        this.checkoutFormGroup.get(`payment.${controlName}`)?.clearValidators();
-        this.checkoutFormGroup.get(`payment.${controlName}`)?.updateValueAndValidity();
-      });
+    const paymentGroup = this.checkoutFormGroup.get('payment');
+    const creditCardControls = ['cardType', 'nameOnCard', 'cardNumber', 'securityCode', 'expirationMonth', 'expirationYear'];
+
+    if (this.selectedPaymentMethod === 'creditCard') {
+      // Bắt buộc nhập các trường credit card
+      paymentGroup?.get('cardType')?.setValidators([Validators.required]);
+      paymentGroup?.get('nameOnCard')?.setValidators([Validators.required, Validators.minLength(2), DomiverseValidators.notOnlyWhitespace]);
+      paymentGroup?.get('cardNumber')?.setValidators([Validators.required, Validators.pattern('^[0-9]{16}$')]);
+      paymentGroup?.get('securityCode')?.setValidators([Validators.required, Validators.pattern('^[0-9]{3}$')]);
+      // Có thể thêm validator cho expirationMonth, expirationYear nếu muốn
     } else {
-      // Nếu là credit card, đặt lại validators
-      this.checkoutFormGroup.get('payment.nameOnCard')?.setValidators([Validators.required, Validators.minLength(2)]);
-      this.checkoutFormGroup.get('payment.cardNumber')?.setValidators([Validators.required, Validators.pattern('^[0-9]{16}$')]);
-      this.checkoutFormGroup.get('payment.securityCode')?.setValidators([Validators.required, Validators.pattern('^[0-9]{3}$')]);
+      // Không bắt buộc nhập các trường credit card
       creditCardControls.forEach(controlName => {
-        this.checkoutFormGroup.get(`payment.${controlName}`)?.updateValueAndValidity();
+        paymentGroup?.get(controlName)?.clearValidators();
+        paymentGroup?.get(controlName)?.setValue('');
+        paymentGroup?.get(controlName)?.updateValueAndValidity();
       });
     }
+
+    // Nếu chọn bankTransfer hoặc cash, không cần validator gì thêm
+    paymentGroup?.get('paymentMethod')?.setValidators([Validators.required]);
+    paymentGroup?.get('paymentMethod')?.updateValueAndValidity();
   }
 
   reviewCartDetails() {
@@ -225,7 +230,7 @@ get shippingStreet() { return this.checkoutFormGroup.get('shippingAddress.street
     );
   }
 
-  
+
   onSubmit() {
     console.log("Handling the submit button");
 
@@ -237,23 +242,53 @@ get shippingStreet() { return this.checkoutFormGroup.get('shippingAddress.street
       return;
     }
 
-    // Set up order
+    // set up order
     let order = new Order();
     order.totalPrice = this.totalPrice;
     order.totalQuantity = this.totalQuantity;
 
-    //get cart items
+    // get cart items
     const cartItems = this.cartService.cartItems;
 
-    // tạo order từ orderitems
-    let orderItems: OrderItem[] = cartItems.map(tempcartItem => new OrderItem(tempcartItem));
+    // create orderItems from cartItems
+    // - long way
+    /*
+    let orderItems: OrderItem[] = [];
+    for (let i=0; i < cartItems.length; i++) {
+      orderItems[i] = new OrderItem(cartItems[i]);
+    }
+    */
 
+    // - short way of doing the same thingy
+    let orderItems: OrderItem[] = cartItems.map(tempCartItem => new OrderItem(tempCartItem));
 
+    // set up purchase
+    let purchase = new Purchase();
 
+    // populate purchase - customer
+    purchase.customer = this.checkoutFormGroup.controls['customer'].value;
 
+    // populate purchase - shipping address
+    purchase.shippingAddress = this.checkoutFormGroup.controls['shippingAddress'].value;
 
+    // populate purchase - order and orderItems
+    purchase.order = order;
+    purchase.orderItems = orderItems;
 
+    // call REST API via the CheckoutService
+    this.checkoutService.placeOrder(purchase).subscribe({
+      next: response => {
+        alert(`Your order has been received.\nOrder tracking number: ${response.orderTrackingNumber}`);
 
+        // reset cart
+        this.resetCart();
+
+      },
+      error: err => {
+        alert(`There was an error: ${err.message}`);
+      }
+    }
+    );
 
     // Nếu form hợp lệ, tiếp tục xử lý
     console.log("Form is valid. Processing data...");
@@ -304,13 +339,27 @@ get shippingStreet() { return this.checkoutFormGroup.get('shippingAddress.street
 
     // Bước 2: Chỉ tạo URL nếu số tiền lớn hơn hoặc bằng 0
     if (amountInVND >= 0) {
-        const description = "Thanh toan don hang Domiverse";
-        
-        // Bước 3: Sử dụng biến amountInVND (đã đổi sang VND) để tạo URL
-        const url = `https://api.vietqr.io/image/970423-00003502576-print.png?amount=${amountInVND}&addInfo=${encodeURIComponent(description)}`;
-        
-        this.vietQRUrl = url;
-        console.log(`Generated VietQR URL for ${amountInVND} VND:`, this.vietQRUrl);
+      const description = "Thanh toan don hang Domiverse";
+
+      // Bước 3: Sử dụng biến amountInVND (đã đổi sang VND) để tạo URL
+      const url = `https://api.vietqr.io/image/970423-00003502576-print.png?amount=${amountInVND}&addInfo=${encodeURIComponent(description)}`;
+
+      this.vietQRUrl = url;
+      console.log(`Generated VietQR URL for ${amountInVND} VND:`, this.vietQRUrl);
     }
+  }
+
+  // Thêm hàm resetCart để xử lý việc reset giỏ hàng và form
+  resetCart() {
+    // Đặt lại giỏ hàng
+    this.cartService.cartItems = [];
+    this.cartService.totalPrice.next(0);
+    this.cartService.totalQuantity.next(0);
+
+    // Đặt lại form
+    this.checkoutFormGroup.reset();
+
+    // Chuyển hướng về trang sản phẩm hoặc trang chủ
+    this.router.navigateByUrl("/products");
   }
 }
