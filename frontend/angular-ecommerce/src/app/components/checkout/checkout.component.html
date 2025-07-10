@@ -14,50 +14,50 @@
                     <form [formGroup]="checkoutFormGroup" (ngSubmit)="onSubmit()">
 
                         <div class="form-section">
-                            <h4 class="section-title">Shipping address</h4>
+                            <h4 class="section-title">Địa chỉ giao hàng</h4>
 
                             <div formGroupName="customer">
                                 <div class="row">
                                     <div class="col-md-6 mb-3">
-                                        <label for="firstName" class="form-label">First name*</label>
+                                        <label for="firstName" class="form-label">Họ*</label>
                                         <input id="firstName" type="text" class="form-control"
                                             formControlName="firstName" />
 
                                         <div *ngIf="firstName?.invalid && (firstName?.dirty || firstName?.touched)"
                                             class="alert alert-danger mt-1 p-2">
                                             <div *ngIf="firstName?.errors?.['required']">
-                                                First name is required.
+                                                Họ là bắt buộc.
                                             </div>
                                             <div *ngIf="firstName?.errors?.['minlength']">
-                                                First name must be at least 2 characters long.
+                                                Họ phải có ít nhất 2 ký tự.
                                             </div>
                                             <div *ngIf="firstName?.errors?.['notOnlyWhitespace']">
-                                                First name cannot be only whitespace.
+                                                Họ không được chỉ chứa khoảng trắng.
                                             </div>
                                         </div>
                                     </div>
                                     <div class="col-md-6 mb-3">
-                                        <label for="lastName" class="form-label">Last name*</label>
+                                        <label for="lastName" class="form-label">Tên*</label>
                                         <input id="lastName" type="text" class="form-control"
                                             formControlName="lastName" />
 
                                         <div *ngIf="lastName?.invalid && (lastName?.dirty || lastName?.touched)"
                                             class="alert alert-danger mt-1 p-2">
                                             <div *ngIf="lastName?.errors?.['required']">
-                                                Last name is required.
+                                                Tên là bắt buộc.
                                             </div>
                                             <div *ngIf="lastName?.errors?.['minlength']">
-                                                Last name must be at least 2 characters long.
+                                                Tên phải có ít nhất 2 ký tự.
                                             </div>
                                             <div *ngIf="lastName?.errors?.['notOnlyWhitespace']">
-                                                Last name cannot be only whitespace.
+                                                Tên không được chỉ chứa khoảng trắng.
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="mb-3">
-                                    <label for="companyName" class="form-label">Company <span
-                                            class="text-muted">(Optional)</span></label>
+                                    <label for="companyName" class="form-label">Công ty <span
+                                            class="text-muted">(Tùy chọn)</span></label>
                                     <input id="companyName" type="text" class="form-control"
                                         formControlName="companyName" />
                                 </div>
@@ -69,30 +69,30 @@
                                         <div *ngIf="email?.invalid && (email?.dirty || email?.touched)"
                                             class="alert alert-danger mt-1 p-2">
                                             <div *ngIf="email?.errors?.['required']">
-                                                Email is required.
+                                                Email là bắt buộc.
                                             </div>
                                             <div *ngIf="email?.errors?.['pattern']">
-                                                Please enter a valid email address format.
+                                                Vui lòng nhập đúng định dạng địa chỉ email.
                                             </div>
-                                            <div *ngIf="firstName?.errors?.['notOnlyWhitespace']">
-                                                Email cannot be only whitespace.
+                                            <div *ngIf="email?.errors?.['notOnlyWhitespace']">
+                                                Email không được chỉ chứa khoảng trắng.
                                             </div>
                                         </div>
                                     </div>
                                     <div class="col-md-6 mb-3">
-                                        <label for="phone" class="form-label">Phone*</label>
+                                        <label for="phone" class="form-label">Số điện thoại*</label>
                                         <input id="phone" type="tel" class="form-control" formControlName="phone" />
 
                                         <div *ngIf="phone?.invalid && (phone?.dirty || phone?.touched)"
                                             class="alert alert-danger mt-1 p-2">
                                             <div *ngIf="phone?.errors?.['required']">
-                                                Phone number is required.
+                                                Số điện thoại là bắt buộc.
                                             </div>
                                             <div *ngIf="phone?.errors?.['pattern']">
-                                                Please enter a valid phone number.
+                                                Vui lòng nhập đúng định dạng số điện thoại.
                                             </div>
                                             <div *ngIf="phone?.errors?.['notOnlyWhitespace']">
-                                                Phone number cannot be only whitespace.
+                                                Số điện thoại không được chỉ chứa khoảng trắng.
                                             </div>
                                         </div>
                                     </div>

@@ -9,7 +9,7 @@ import { Component } from '@angular/core';
 export class AppComponent {
   title = 'angular-ecommerce';
   // Biến để theo dõi trạng thái của sidebar (mặc định là đang mở)
-  isSidebarCollapsed = false;
+  isSidebarCollapsed = true;
 
   // Phương thức để đảo ngược trạng thái của sidebar
   toggleSidebar(): void {

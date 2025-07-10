@@ -122,6 +122,7 @@
   background-color: #fff;
   border: 1px solid var(--border-color);
   color: var(--primary-text-color);
+  font-size: 15px;
 }
 .sidebar-footer .input-group .form-control:focus {
   border-color: var(--accent-color);
