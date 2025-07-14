@@ -10,6 +10,7 @@ import { Order } from '../../common/order';
 import { OrderItem } from '../../common/order-item';
 import { Purchase } from '../../common/purchase';
 import { DomiverseValidators } from '../../validators/domiverse-validators';
+import { Address } from '../../common/address';
 @Component({
   selector: 'app-checkout',
   standalone: false,
@@ -269,8 +270,12 @@ export class CheckoutComponent implements OnInit {
     purchase.customer = this.checkoutFormGroup.controls['customer'].value;
 
     // populate purchase - shipping address
-    purchase.shippingAddress = this.checkoutFormGroup.controls['shippingAddress'].value;
-
+    const shippingAddressData = this.checkoutFormGroup.controls['shippingAddress'].value;
+    const formattedShippingAddress = new Address(
+      shippingAddressData.street,
+      // Ghép tỉnh, huyện, xã thành một chuỗi cho trường city
+      `${shippingAddressData.province}, ${shippingAddressData.district}, ${shippingAddressData.ward}`
+    );
     // populate purchase - order and orderItems
     purchase.order = order;
     purchase.orderItems = orderItems;

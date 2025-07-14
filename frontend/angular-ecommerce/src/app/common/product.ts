@@ -9,6 +9,7 @@ export class Product {
                 public unitsInStock: string,
                 public dateCreated: string,
                 public lastUpdated: string,
+                
     ){}
 }
 

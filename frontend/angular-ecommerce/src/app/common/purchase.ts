@@ -7,4 +7,5 @@ export class Purchase {
     shippingAddress!: Address;
     order!: Order;
     orderItems!: OrderItem[];
+    billingAddress!: Address;
 }
