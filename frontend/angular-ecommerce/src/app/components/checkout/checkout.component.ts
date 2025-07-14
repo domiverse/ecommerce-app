@@ -11,6 +11,7 @@ import { OrderItem } from '../../common/order-item';
 import { Purchase } from '../../common/purchase';
 import { DomiverseValidators } from '../../validators/domiverse-validators';
 import { Address } from '../../common/address';
+import { AuthService } from '../../services/auth.service';
 @Component({
   selector: 'app-checkout',
   standalone: false,
@@ -45,7 +46,8 @@ export class CheckoutComponent implements OnInit {
     private checkoutFormService: CheckoutFormService,
     private addressService: VietnameseAddressService,
     private checkoutService: CheckoutService,
-    private router: Router
+    private router: Router,
+    private authService: AuthService, 
   ) { } // Inject service
 
   ngOnInit(): void {
@@ -79,6 +81,7 @@ export class CheckoutComponent implements OnInit {
         expirationMonth: [''],
         expirationYear: ['']
       })
+      
     });
 
     // BƯỚC 2: Bắt đầu lấy dữ liệu cho giỏ hàng
@@ -98,6 +101,19 @@ export class CheckoutComponent implements OnInit {
 
     // SỬA LẠI TÊN HÀM GỌI Ở ĐÂY
     this.handleCreditCardMonthsAndYears();
+    
+    // THÊM MỚI: Lấy thông tin người dùng hiện tại nếu đã đăng nhập
+      this.authService.currentUser.subscribe(user => {
+      if (user) {
+        console.log("User is logged in. Pre-filling form.");
+        this.checkoutFormGroup.get('customer')?.patchValue({
+          firstName: user.firstName,
+          lastName: user.lastName,
+          email: user.email
+        });
+      }
+    });
+  
   }
 
   setupAddressDropdownsLogic() {

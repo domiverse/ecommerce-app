@@ -17,6 +17,8 @@ import { DividerModule } from 'primeng/divider';
 import { DropdownModule } from 'primeng/dropdown';
 import { FormsModule } from '@angular/forms';
 import { ToolbarModule } from 'primeng/toolbar';
+import { AuthService } from './services/auth.service';
+import { CheckoutFormService } from './services/checkout-form.service';
 import { BadgeModule } from 'primeng/badge';
 import { OverlayBadgeModule } from 'primeng/overlaybadge';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
@@ -27,6 +29,7 @@ import { CartDetailsComponent } from './components/cart-details/cart-details.com
 import { CheckoutComponent } from './components/checkout/checkout.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ContactComponent } from './components/contact/contact.component';
+import { LoginComponent } from './components/login/login.component';
 
 @NgModule({
   declarations: [
@@ -38,7 +41,9 @@ import { ContactComponent } from './components/contact/contact.component';
     CartStatusComponent,
     CartDetailsComponent,
     CheckoutComponent,
-    ContactComponent
+    ContactComponent,
+    LoginComponent,
+    
   ],
   imports: [
     BrowserModule,
@@ -57,7 +62,8 @@ import { ContactComponent } from './components/contact/contact.component';
     BadgeModule,
     MessageModule,
     SidebarModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    
 ],
   providers: [ProductService],
   bootstrap: [AppComponent]

@@ -28,6 +28,27 @@
                     <div class="header-right-section">
                         <app-search></app-search>
                         <app-cart-status></app-cart-status>
+
+                        <div class="login-status-area">
+
+                            <ng-container *ngIf="(authService.currentUser | async) === null">   
+                                <a routerLink="/login" class="login-button">
+                                    <i class="fas fa-sign-in-alt me-2"></i>
+                                    <span>Đăng nhập</span>
+                                </a>
+                            </ng-container>
+
+                            <ng-container *ngIf="authService.currentUser | async as user">
+                                <div class="user-info">
+                                    <i class="fas fa-user-circle me-2"></i>
+                                    <span class="welcome-msg">Chào, {{ user.firstName }}</span>
+                                </div>
+                                <button (click)="logout()" class="logout-button">
+                                    <i class="fas fa-sign-out-alt"></i>
+                                </button>
+                            </ng-container>
+
+                        </div>
                     </div>
                 </div>
             </div>
