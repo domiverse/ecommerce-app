@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
 
@@ -31,9 +32,9 @@ public class CheckoutServiceImpl implements CheckoutService {
         // 1. Lấy dữ liệu từ DTO và kiểm tra customer
         Customer customer = purchase.getCustomer();
         String theEmail = customer.getEmail();
-        Customer customerFromDB = customerRepository.findByEmail(theEmail);
-        if (customerFromDB != null) {
-            customer = customerFromDB;
+        Optional<Customer> customerFromDB = customerRepository.findByEmail(theEmail);
+        if (customerFromDB.isPresent()) {
+            customer = customerFromDB.get();
         }
 
         // 2. Tạo đối tượng Order mới
