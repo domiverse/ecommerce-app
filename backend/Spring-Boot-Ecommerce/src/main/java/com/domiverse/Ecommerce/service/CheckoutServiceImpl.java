@@ -47,6 +47,15 @@ public class CheckoutServiceImpl implements CheckoutService {
 
         // 4. Lấy các order items và thiết lập quan hệ
         Set<OrderItem> orderItems = purchase.getOrderItems();
+
+        // ✨ **PHẦN SỬA LỖI QUAN TRỌNG** ✨
+        // Kiểm tra nếu orderItems là null để tránh NullPointerException
+        if (orderItems == null) {
+            // Bạn có thể ném ra một ngoại lệ để báo lỗi rõ ràng hơn
+            throw new IllegalArgumentException("Order items không được để trống.");
+            // Hoặc khởi tạo một Set rỗng nếu logic nghiệp vụ cho phép
+            // orderItems = new HashSet<>();
+        }
         orderItems.forEach(order::add); // Gán order cho từng order item
 
         // 5. Tính toán lại tổng tiền và số lượng ở server để bảo mật

@@ -26,7 +26,7 @@ public class Customer {
     @Column(name = "last_name")
     private String lastName;
 
-    @Column(name = "email")
+    @Column(name = "email", unique = true)
     private String email;
 
     @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL)
