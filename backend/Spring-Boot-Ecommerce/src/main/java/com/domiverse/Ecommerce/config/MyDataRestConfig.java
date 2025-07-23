@@ -22,8 +22,8 @@ public class MyDataRestConfig implements RepositoryRestConfigurer {
 
     @Autowired
     public MyDataRestConfig(EntityManager entityManager){
-        // This constructor allows us to inject the EntityManager
-        // which is used to access the metadata of the entities
+        // Chèn một EntityManager vào MyDataRestConfig thông qua constructor injection
+        // để có thể truy cập các thông tin về các thực thể trong cơ sở dữ liệu.
         this.entityManager = entityManager;
     }
 
