@@ -1,31 +1,21 @@
-/* ========================================================== */
-/* === CSS CHO LAYOUT GIỎ HÀNG 2 CỘT & STICKY SUMMARY === */
-/* ========================================================== */
+/* File: cart-details.component.css */
 
-/* Gỡ bỏ style cũ có nền tối và đảm bảo component chiếm toàn bộ không gian */
+/* ========================================================== */
+/* === CSS CHUNG & CHO MÀN HÌNH LỚN (DESKTOP) === */
+/* ========================================================== */
 :host {
     display: block;
-    background-color: transparent; /* Nền trong suốt để lấy màu của content-wrapper */
 }
 
-/* Định dạng cho tiêu đề trang */
-.section-header {
-    margin-bottom: 2rem;
-    padding-bottom: 1rem;
-    border-bottom: 1px solid #dee2e6;
-}
 .section-header h3 {
     font-size: 1.75rem;
     font-weight: 500;
-    color: #ffffff;
+    margin-bottom: 1.5rem;
 }
 
-/* --- CỘT BÊN TRÁI: DANH SÁCH SẢN PHẨM --- */
-
-/* Thêm style cho container để tạo nền và padding, giải quyết vấn đề sát lề */
 .product-list-container {
     background-color: #ffffff;
-    border: 1px solid #ffffff;
+    border: 1px solid #dee2e6;
     border-radius: 8px;
     padding: 1.5rem;
 }
@@ -34,15 +24,14 @@
     display: flex;
     align-items: center;
     padding: 1.5rem 0;
-    border-bottom: 1px solid #302121; /* Viền mảnh hơn */
+    border-bottom: 1px solid #e9ecef;
 }
-/* Xóa viền dưới của sản phẩm cuối cùng */
-.product-list .product-item:last-child {
+
+.product-item:last-child {
     border-bottom: none;
     padding-bottom: 0;
 }
-/* Xóa viền trên của sản phẩm đầu tiên */
-.product-list .product-item:first-child {
+.product-item:first-child {
     padding-top: 0;
 }
 
@@ -53,69 +42,119 @@
     border-radius: 8px;
     margin-right: 1.5rem;
 }
+
 .product-info {
-    flex-grow: 1; /* Cho phép phần info chiếm không gian thừa */
+    flex-grow: 1;
 }
+
 .product-name {
     font-weight: 600;
     margin-bottom: 0.25rem;
-    color: #212529;
 }
+
 .product-price {
     color: #6c757d;
 }
+
 .quantity-controls {
     display: flex;
     align-items: center;
-    justify-content: center;
     margin: 0 1.5rem;
 }
+
 .quantity-controls span {
     min-width: 40px;
     text-align: center;
     font-weight: 500;
-    font-size: 1.1rem;
 }
+
 .subtotal {
     font-weight: 600;
     width: 120px;
     text-align: right;
-    color: #212529;
 }
+
 .remove-action {
     width: 80px;
     text-align: right;
 }
 
-/* --- CỘT BÊN PHẢI: KHỐI THANH TOÁN --- */
-
-/* GHI CHÚ: Đây là logic để làm "dính" cả cột bên phải */
 .sticky-summary-column {
-    position: -webkit; /* Dành cho Safari */
     position: sticky;
-    top: calc(var(--topbar-height, 65px) + 2rem); /* Vị trí dính, cách topbar 2rem */
-    align-self: flex-start; /* Quan trọng để sticky hoạt động đúng trong flexbox (row) */
+    top: 2rem;
 }
 
 .summary-box {
-    border: 1px solid #d7dde4;
+    border: 1px solid #dee2e6;
     border-radius: 8px;
     padding: 1.5rem;
-    width: 100%;
 }
 
 .summary-box h4 {
     font-weight: 600;
     margin-bottom: 1rem;
 }
+
 .summary-details p, .total-price-section {
     display: flex;
     justify-content: space-between;
-    margin-bottom: 0.75rem;
-    font-size: 1rem;
 }
+
 .total-price-section {
     font-size: 1.25rem;
     font-weight: bold;
-    color: #343a40; 
+}
+
+
+/* ========================================================== */
+/* === CSS CHO MÀN HÌNH NHỎ (ĐIỆN THOẠI) === */
+/* ========================================================== */
+@media (max-width: 991px) { /* Áp dụng cho màn hình nhỏ hơn màn lg của Bootstrap */
+    .product-item {
+        flex-direction: column; /* Chuyển item thành layout dọc */
+        align-items: flex-start; /* Căn các mục về bên trái */
+        position: relative;
+    }
+
+    .product-image {
+        width: 80px;
+        height: 80px;
+        margin-right: 0;
+        margin-bottom: 1rem;
+    }
+
+    .product-info {
+        width: 100%;
+    }
+
+    /* Đặt các nút điều khiển và giá tiền trên cùng một hàng */
+    .controls-price-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%;
+        margin-top: 1rem;
+    }
+    
+    .quantity-controls {
+        margin: 0;
+        order: 1; /* Sắp xếp lại thứ tự */
+    }
+
+    .subtotal {
+        order: 2; /* Sắp xếp lại thứ tự */
+        width: auto;
+        font-size: 1.1rem;
+    }
+
+    .remove-action {
+        position: absolute; /* Đặt nút xóa ở góc trên bên phải */
+        top: 1.5rem;
+        right: 0;
+    }
+
+    /* Thêm khoảng cách cho cột tóm tắt khi nó nằm dưới */
+    .sticky-summary-column {
+        margin-top: 2rem;
+    }
 }

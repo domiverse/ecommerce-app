@@ -118,3 +118,60 @@
 .login-status-area i {
     font-size: 1.1rem;
 }
+/* Thêm vào cuối file: app.component.css */
+
+/* ========================================================== */
+/* === CSS RESPONSIVE CHO HEADER (MÀN HÌNH NHỎ) === */
+/* ========================================================== */
+@media (max-width: 991px) {
+    .header-desktop {
+        padding: 0 15px; /* Thêm padding ngang cho header trên mobile */
+    }
+
+    .header-wrap {
+        /* Đảm bảo các khối trái/phải nằm trên một hàng */
+        justify-content: space-between;
+    }
+
+    .header-left-section,
+    .header-right-section {
+        /* Đảm bảo các mục bên trong căn giữa theo chiều dọc */
+        display: flex;
+        align-items: center;
+    }
+
+    .hamburger-btn {
+        margin-right: 10px;
+    }
+
+    .logo img {
+        max-height: 35px; /* Giảm chiều cao logo một chút */
+    }
+
+    /* Nút tìm kiếm mới cho mobile */
+    .search-icon-mobile {
+        background: none;
+        border: none;
+        color: white;
+        font-size: 1.2rem;
+        padding: 0 10px;
+    }
+
+    /* Điều chỉnh lại khoảng cách cho các mục bên phải */
+    .header-right-section app-cart-status {
+        margin-left: 10px;
+    }
+
+    .login-status-area {
+        margin-left: 10px;
+    }
+
+    .login-status-area .welcome-msg {
+        display: none; /* Ẩn lời chào trên mobile để tiết kiệm không gian */
+    }
+
+    .login-status-area .login-button,
+    .login-status-area .user-info {
+        padding: 0.4rem 0.8rem; /* Giảm padding cho nút nhỏ hơn */
+    }
+}
